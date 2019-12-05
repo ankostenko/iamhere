@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <script src="../../static/js/d3.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/styles.css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="../../static/js/popper.min.js"></script>
+    <script src="../../static/js/jquery-3.4.1.js"></script>
+    <script src="../../static/js/bootstrap.min.js"></script>
+    <script src="../../static/js/saveSvgAsPng.js"></script>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" />
+
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="center-block">
+            <div class="floor-circles">
+                {% for stage in stages %}
+                <div class="circle-{{stage.id}} circle" data-stage-id="{{stage.id}}"
+                    data-building-id="{{stage.building_id}}">{{stage.name}}</div>
+                {% endfor %}
+            </div>
+            <div class="text-center user-menu">
+                <div class="btn-group building-listing">
+                    <div class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="user-menu-item__dropdown_title"><span
+                                title="{{building.name}}">{{building.name}}</span>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu scrollable">
+                        {% for building in buildings %}
+                        <a class="dropdown-item" href="/building/{{building.id}}">{{building.name}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div id="canvas" style="text-align:center;">
+                <script src="../../static/js/script.js"></script>
+            </div>
+            <div class="text-center user-menu-vertical">
+                <div class="place-link">
+                    <div id="link"><img src="../../static/images/link.svg" height="40px" width="40px"></div>
+                    <input type="text" class="form-control place-link__inp" id="place-link" readonly
+                        placeholder="Ссылка на место" aria-label="Ссылка на место">
+                </div>
+                <div class="circle-menu">
+                    <div id="save-map"><img data-map-mode="3" src="../../static/images/save-menu-black.svg"
+                            height="25px" width="25px"></div>
+                </div>
+                <div class="circle-menu select-circle-menu">
+                    <div class="user-menu__item" data-map-mode="1"> <img data-map-mode="1"
+                            src="../../static/images/placeholder-menu-black.svg" height="30px" width="30px">
+                    </div>
+                </div>
+                <div class="circle-menu">
+                    <div data-map-mode="2"><img data-map-mode="2" src="../../static/images/route-menu-black.svg"
+                            height="30px" width="30px"></div>
+                </div>
+                <input type="text" class="form-control place-link__inp" id="place-link__none" readonly
+                    placeholder="Ссылка на место" aria-label="Ссылка на место">
+                <div class="circle-menu">
+                    <div data-map-mode="3"> <img data-map-mode="3" src="../../static/images/label-menu-black.svg"
+                            height="30px" width="30px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

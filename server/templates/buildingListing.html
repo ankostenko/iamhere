@@ -1,0 +1,76 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="../static/css/styles.css" />
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <script src="../static/js/jquery-3.2.1.slim.min.js"></script>
+  <script src="../static/js/bootstrap.min.js"></script>
+  <script src="../static/js/popper.min.js"></script>
+  <script src="../static/js/buildingsListing.js"></script>
+</head>
+
+<body>
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Главная<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/buildings">Здания</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/statistics">Статистика</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <a href="/building-adder" class="nav-link">
+      <button type="button" id="edit-building-3" class="btn btn-info">
+        +
+      </button>
+    </a>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          Здание
+        </div>
+        <div class="col-sm">
+          Описание
+        </div>
+        <div class="col-sm">
+        </div>
+      </div>
+      {% for building in buildings %}
+      <!-- СЮДА ВЫВОДИТСЯ СПИСОК ЗДАНИЙ -->
+      <div class="row row-building-{{building.id}}">
+        <div class="col-sm">
+          <a href="/building/{{building.id}}">{{building.name}} </a>
+          <!-- ID, НАЗВАНИЕ -->
+        </div>
+        <div class="col-sm">
+          {{building.description}}
+          <!-- ОПИСАНИЕ -->
+        </div>
+        <div class="col-sm">
+          <a href="/admin/{{building.id}}">
+            <img src="../static/images/edit.svg" height="20px" width="20px">
+          </a>
+          <img class="delete-building-button panel-icon" src="../static/images/delete.svg" height="20px" width="20px"
+            data-building-id="{{building.id}}" class="delete-building-button">
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+
+</html>

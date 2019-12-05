@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="../static/css/styles.css" />
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="../static/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/js/buildingManager.js"></script>
+</head>
+
+<body>
+    <div class="content">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Главная<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/buildings">Здания</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/statistics">Статистика</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div>
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <h3>{{building.name}}</h3>
+                        </th>
+                        <!-- НАЗВАНИЕ ЗДАНИЯ -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stage in buildingStages %}
+                    <tr class="row-stage-{{stage.id}}">
+                        <td><a href="/admin/{{building.id}}/{{stage.id}}">{{stage.name}}</a></td>
+                        <!-- ID ЗДАНИЯ ЭТАЖА, ID ЭТАЖА -->
+                        <td><img class="delete-stage-button panel-icon" src="../static/images/delete.svg" height="20px"
+                                width="20px" data-stage-id="{{stage.id}}" class="delete-stage-button"></td>
+                    </tr>
+                    {% endfor %}
+                    <a href="/admin/{{building.id}}/add">
+                        <!-- ID ЗДАНИЯ ЭТАЖА -->
+                        <a href="/admin/{{building.id}}/add"><button type="button" id="add-floor" class="btn btn-info">+
+                            </button></a>
+                    </a>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
