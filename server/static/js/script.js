@@ -19,7 +19,16 @@ window.onload = function () {
 
 
     let userMenuItems = document.getElementsByClassName('circle-menu');
-
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    let placeLink = document.getElementById('place-link');
+    let placeLinkNone = document.getElementById('place-link__none');
+    var floor = url.searchParams.get("f");
+    if (floor == null) {
+        floor = document.getElementsByClassName('circle')[0].dataset.stageId;
+    }
+    let x=null;
+    let y=null;
     /* 
      * Функция переключения кружков
      */
@@ -43,6 +52,7 @@ window.onload = function () {
     if (floor == null) {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
     }
+    
     if (x == null) {
         x = -10000
     }
@@ -102,7 +112,7 @@ window.onload = function () {
                     d3.select(window).on('resize', resize);
                 }
             });
-            imageRequest.send(floor);
+            imageRequest.send(imageId);
         }
     });
     Request.send(floor);
@@ -172,6 +182,7 @@ window.onload = function () {
         g.attr("transform", "translate(0, 0)scale(1)");
         changexlinkhref(floor);
     };
+
     placeLink.addEventListener('click', function (e) {
         // ОБРАБОТКА КЛИКА ПО ИНПУТУ С ССЫЛКОЙ
     })
