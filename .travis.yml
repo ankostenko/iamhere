@@ -8,6 +8,7 @@ install:
 
 script:
   - server/app.py
+  - echo &TRAVIS_BUILD_DIR
 
 env:
   - PYTHONPATH="iamhere"
