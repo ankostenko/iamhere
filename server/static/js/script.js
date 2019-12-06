@@ -27,8 +27,8 @@ window.onload = function () {
     if (floor == null) {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
     }
-    let x=null;
-    let y=null;
+    let x = null;
+    let y = null;
     /* 
      * Функция переключения кружков
      */
@@ -52,7 +52,7 @@ window.onload = function () {
     if (floor == null) {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
     }
-    
+
     if (x == null) {
         x = -10000
     }
@@ -107,6 +107,15 @@ window.onload = function () {
                     let resize = () => {
                         svg.attr('width', "100%")
                             .attr('height', "100%")
+                        var circles = svg.selectAll('circle')
+
+                           circles.attr('cx', function (d, i) {
+                                return console.log(d.cx);
+                                
+                            })
+                            .attr('cy', function (d, i) {
+                                return
+                            })
                     };
                     resize();
                     d3.select(window).on('resize', resize);
@@ -149,12 +158,63 @@ window.onload = function () {
 
 
     svg.on("click", function () {
-        if (mapMode === 1) {
+        if (mapMode === 1) { // СЮДА ФИГАЧИМ ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ "Я ЗДЕСЬ!"
 
-            // СЮДА ФИГАЧИМ ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ "Я ЗДЕСЬ!"
+            //.append("svg:svg")
+            //.attr("xlink:href", "../../static/images/placeholder.svg")
+            var events = [];
+            g.on('click', function () {
+                events.push(d3.event);
+                if (events.length > 1) events.shift();
+                var circles = svg.selectAll('circle')
+                    .data(events, function (e) {
+                        return e.timeStamp
+                    })
+                    .attr('fill', 'gray');
+                circles
+                    .enter()
+                    .append('circle')
+                    .attr('cx', function (d) {
+                        return d3.mouse(svg.node())[0]
+                    })
+                    .attr('cy', function (d) {
+                        return d3.mouse(svg.node())[1]
+                    })
+                    .attr('fill', 'red')
+                    .attr('r', 10);
+                circles
+                    .exit()
+                    .remove();
+            });
 
         } else if (mapMode === 2) {
+            var events = [];
+            g.on('click', function () {
+                events.push(d3.event);
+                if (events.length > 2) events.shift();
+                var circles = svg.selectAll('circle')
+                    .data(events, function (e) {
+                        return e.timeStamp
+                    })
+                    .attr('fill', 'gray');
+                circles
+                    .enter()
+                    .append('circle')
+                    .attr('cx', function (d) {
+                        return d3.mouse(svg.node())[0]
+                    })
+                    .attr('cy', function (d) {
+                        return d3.mouse(svg.node())[1]
+                    })
+                    .attr('fill', 'red')
+                    .attr('r', 10);
+                circles
+                    .exit()
+                    .remove();
 
+                console.log(d3.mouse(svg.node()));
+
+            });
 
             //А СЮДА ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ ПОСТРОЕНИЯ МАРШРУТА
 
