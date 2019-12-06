@@ -7,7 +7,7 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - pathtest.py
+  - python pathtest.py
   - server/app.py
 
 
