@@ -17,18 +17,18 @@ window.onload = function () {
      * 3 - Метка
      */
 
-
     let userMenuItems = document.getElementsByClassName('circle-menu');
     var url_string = window.location.href;
     var url = new URL(url_string);
     let placeLink = document.getElementById('place-link');
     let placeLinkNone = document.getElementById('place-link__none');
     var floor = url.searchParams.get("f");
+    destinationCoordinate[0] = url.searchParams.get("x")
+    destinationCoordinate[1] = url.searchParams.get("y")
     if (floor == null) {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
     }
-    let x = null;
-    let y = null;
+    
     /* 
      * Функция переключения кружков
      */
@@ -44,6 +44,8 @@ window.onload = function () {
     var scaleVar = 1;
     var translateVar = [0, 0];
     var g = svg.append("g");
+    let myCoordinate = [0, 0];
+    let destinationCoordinate= [0, 0];
 
     /*
      * Здесь надо получить данные из ссылки 
@@ -53,13 +55,15 @@ window.onload = function () {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
     }
 
-    if (x == null) {
+    if (destinationCoordinate[0] == null) {
         x = -10000
     }
 
-    if (y == null) {
+    if (destinationCoordinate[1] == null) {
         y = -10000
     }
+    
+    
 
     document.getElementsByClassName('circle-' + floor)[0].classList.add('select-circle');
     var Request = new XMLHttpRequest();
@@ -102,20 +106,20 @@ window.onload = function () {
                             translateVar[0] = t.x;
                             translateVar[1] = t.y;
                         }
+
+                        svg.selectAll('circle')
+                        .attr('cx', function (d) {
+                                return x(d.x + translateVar[0]) 
+
+                            })
+                            .attr('cy', function (d) {
+                                return x(d.x + translateVar[1]) 
+                            })
                     }));
 
                     let resize = () => {
                         svg.attr('width', "100%")
                             .attr('height', "100%")
-                        var circles = svg.selectAll('circle')
-
-                           circles.attr('cx', function (d, i) {
-                                return console.log(d.cx);
-                                
-                            })
-                            .attr('cy', function (d, i) {
-                                return
-                            })
                     };
                     resize();
                     d3.select(window).on('resize', resize);
@@ -159,7 +163,7 @@ window.onload = function () {
 
     svg.on("click", function () {
         if (mapMode === 1) { // СЮДА ФИГАЧИМ ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ "Я ЗДЕСЬ!"
-
+            //+ `?f=${floor}&x=${myCoordinate[0]}&y=${myCoordinate[1]}`
             //.append("svg:svg")
             //.attr("xlink:href", "../../static/images/placeholder.svg")
             var events = [];
@@ -175,16 +179,19 @@ window.onload = function () {
                     .enter()
                     .append('circle')
                     .attr('cx', function (d) {
-                        return d3.mouse(svg.node())[0]
+                        myCoordinate[0] = d3.mouse(svg.node())[0]
+                        return myCoordinate[0]
                     })
                     .attr('cy', function (d) {
-                        return d3.mouse(svg.node())[1]
+                        myCoordinate[1] = d3.mouse(svg.node())[1]
+                        return myCoordinate[1]
                     })
                     .attr('fill', 'red')
                     .attr('r', 10);
                 circles
                     .exit()
                     .remove();
+                window.history.pushState('','',`?f=${floor}&x=${Math.round(myCoordinate[0])}&y=${Math.round(myCoordinate[0])}`);
             });
 
         } else if (mapMode === 2) {
@@ -201,18 +208,18 @@ window.onload = function () {
                     .enter()
                     .append('circle')
                     .attr('cx', function (d) {
-                        return d3.mouse(svg.node())[0]
+                        myCoordinate[0] = d3.mouse(svg.node())[0]
+                        return myCoordinate[0]
                     })
                     .attr('cy', function (d) {
-                        return d3.mouse(svg.node())[1]
+                        myCoordinate[1] = d3.mouse(svg.node())[1]
+                        return myCoordinate[1]
                     })
                     .attr('fill', 'red')
                     .attr('r', 10);
                 circles
                     .exit()
                     .remove();
-
-                console.log(d3.mouse(svg.node()));
 
             });
 
