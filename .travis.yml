@@ -8,3 +8,6 @@ install:
 
 script:
   - server/app.py
+
+env:
+  - PYTHONPATH="iamhere/"
