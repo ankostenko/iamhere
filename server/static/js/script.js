@@ -62,7 +62,7 @@ window.onload = function () {
     if (destinationCoordinate[1] == null) {
         y = -10000
     }
-    
+
     
 
     document.getElementsByClassName('circle-' + floor)[0].classList.add('select-circle');
@@ -120,6 +120,18 @@ window.onload = function () {
                     let resize = () => {
                         svg.attr('width', "100%")
                             .attr('height', "100%")
+<<<<<<< HEAD
+=======
+                        var circles = svg.selectAll('circle')
+
+                        circles.attr('cx', function (d, i) {
+                                return console.log(d.cx);
+
+                            })
+                            .attr('cy', function (d, i) {
+                                return
+                            })
+>>>>>>> 20a7cf29ff6482852a81237430806d4033081101
                     };
                     resize();
                     d3.select(window).on('resize', resize);
@@ -194,6 +206,28 @@ window.onload = function () {
                 window.history.pushState('','',`?f=${floor}&x=${Math.round(myCoordinate[0])}&y=${Math.round(myCoordinate[0])}`);
             });
 
+
+
+            svg.selectAll("rect")
+                .data(zones)
+                .enter()
+                .append("rect")
+                .attr("id", function (d) {
+                    return "zone" + d.zone;
+                })
+                .attr("class", "zone")
+                .attr("x", function (d, i) {
+                    if (parseInt(i / (wcount)) % 2 == 0) {
+                        this.xcor = (i % wcount) * zoneW;
+
+                    } else {
+                        this.xcor = (zoneW * (wcount - 1)) - ((i % wcount) * zoneW);
+
+                    }
+                    return this.xcor;
+                });
+
+
         } else if (mapMode === 2) {
             var events = [];
             g.on('click', function () {
@@ -223,7 +257,10 @@ window.onload = function () {
 
             });
 
+
+
             //А СЮДА ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ ПОСТРОЕНИЯ МАРШРУТА
+
 
 
         } else if (mapMode === 3) {
