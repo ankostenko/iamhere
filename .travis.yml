@@ -7,8 +7,5 @@ install:
   - pip install -r requirements.txt
 
 script:
+  - python server/pathtest.py
   - python server/app.py
-
-
-env:
-  - PYTHONPATH="iamhere"
