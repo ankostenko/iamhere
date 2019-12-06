@@ -23,12 +23,12 @@ window.onload = function () {
     let placeLink = document.getElementById('place-link');
     let placeLinkNone = document.getElementById('place-link__none');
     var floor = url.searchParams.get("f");
-    destinationCoordinate[0] = url.searchParams.get("x")
-    destinationCoordinate[1] = url.searchParams.get("y")
+    var x = url.searchParams.get("x")
+    var y = url.searchParams.get("y")
     if (floor == null) {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
     }
-    
+
     /* 
      * Функция переключения кружков
      */
@@ -44,8 +44,7 @@ window.onload = function () {
     var scaleVar = 1;
     var translateVar = [0, 0];
     var g = svg.append("g");
-    let myCoordinate = [0, 0];
-    let destinationCoordinate= [0, 0];
+   
 
     /*
      * Здесь надо получить данные из ссылки 
@@ -55,15 +54,15 @@ window.onload = function () {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
     }
 
-    if (destinationCoordinate[0] == null) {
-        x = -10000
+    if (x == null) {
+        x = -10000;
     }
 
-    if (destinationCoordinate[1] == null) {
-        y = -10000
+    if (y == null) {
+        y = -10000;
     }
 
-    
+
 
     document.getElementsByClassName('circle-' + floor)[0].classList.add('select-circle');
     var Request = new XMLHttpRequest();
@@ -107,34 +106,30 @@ window.onload = function () {
                             translateVar[1] = t.y;
                         }
 
-                        svg.selectAll('circle')
-                        .attr('cx', function (d) {
-                                return x(d.x + translateVar[0]) 
-
-                            })
-                            .attr('cy', function (d) {
-                                return x(d.x + translateVar[1]) 
-                            })
                     }));
 
                     let resize = () => {
                         svg.attr('width', "100%")
                             .attr('height', "100%")
-<<<<<<< HEAD
-=======
-                        var circles = svg.selectAll('circle')
-
-                        circles.attr('cx', function (d, i) {
-                                return console.log(d.cx);
-
-                            })
-                            .attr('cy', function (d, i) {
-                                return
-                            })
->>>>>>> 20a7cf29ff6482852a81237430806d4033081101
                     };
                     resize();
                     d3.select(window).on('resize', resize);
+                    g.selectAll(".here-circle").data([
+                            [x, y]
+                        ])
+                        .enter().append("circle")
+                        .attr("class", "here-circle")
+                        .attr("id", "cent")
+                        .attr("fill", fill)
+                        .attr("stroke", stroke)
+                        .attr("stroke-width", strokeWidth)
+                        .attr("r", 5)
+                        .attr("cx", function (d) {
+                            return d[0];
+                        })
+                        .attr("cy", function (d) {
+                            return d[1];
+                        });
                 }
             });
             imageRequest.send(imageId);
@@ -178,54 +173,13 @@ window.onload = function () {
             //+ `?f=${floor}&x=${myCoordinate[0]}&y=${myCoordinate[1]}`
             //.append("svg:svg")
             //.attr("xlink:href", "../../static/images/placeholder.svg")
-            var events = [];
-            g.on('click', function () {
-                events.push(d3.event);
-                if (events.length > 1) events.shift();
-                var circles = svg.selectAll('circle')
-                    .data(events, function (e) {
-                        return e.timeStamp
-                    })
-                    .attr('fill', 'gray');
-                circles
-                    .enter()
-                    .append('circle')
-                    .attr('cx', function (d) {
-                        myCoordinate[0] = d3.mouse(svg.node())[0]
-                        return myCoordinate[0]
-                    })
-                    .attr('cy', function (d) {
-                        myCoordinate[1] = d3.mouse(svg.node())[1]
-                        return myCoordinate[1]
-                    })
-                    .attr('fill', 'red')
-                    .attr('r', 10);
-                circles
-                    .exit()
-                    .remove();
-                window.history.pushState('','',`?f=${floor}&x=${Math.round(myCoordinate[0])}&y=${Math.round(myCoordinate[0])}`);
-            });
-
-
-
-            svg.selectAll("rect")
-                .data(zones)
-                .enter()
-                .append("rect")
-                .attr("id", function (d) {
-                    return "zone" + d.zone;
-                })
-                .attr("class", "zone")
-                .attr("x", function (d, i) {
-                    if (parseInt(i / (wcount)) % 2 == 0) {
-                        this.xcor = (i % wcount) * zoneW;
-
-                    } else {
-                        this.xcor = (zoneW * (wcount - 1)) - ((i % wcount) * zoneW);
-
-                    }
-                    return this.xcor;
-                });
+            var coords = d3.mouse(svg.node());
+            var x = Math.round(coords[0]);
+            var y = Math.round(coords[1]);
+            g.selectAll(".here-circle")
+                .attr('cx', Math.round((x - translateVar[0]) / scaleVar))
+                .attr('cy', Math.round((y - translateVar[1]) / scaleVar));
+                window.history.pushState('','',`?f=${floor}&x=${Math.round(x)}&y=${Math.round(y)}`);
 
 
         } else if (mapMode === 2) {
