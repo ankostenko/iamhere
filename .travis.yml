@@ -7,8 +7,9 @@ install:
   - pip install -r requirements.txt
 
 script:
+  - server/pathtest.py
   - server/app.py
-  - &TRAVIS_BUILD_DIR
+
 
 env:
   - PYTHONPATH="iamhere"
