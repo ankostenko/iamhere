@@ -109,9 +109,9 @@ window.onload = function () {
                             .attr('height', "100%")
                         var circles = svg.selectAll('circle')
 
-                           circles.attr('cx', function (d, i) {
+                        circles.attr('cx', function (d, i) {
                                 return console.log(d.cx);
-                                
+
                             })
                             .attr('cy', function (d, i) {
                                 return
@@ -187,6 +187,28 @@ window.onload = function () {
                     .remove();
             });
 
+
+
+            svg.selectAll("rect")
+                .data(zones)
+                .enter()
+                .append("rect")
+                .attr("id", function (d) {
+                    return "zone" + d.zone;
+                })
+                .attr("class", "zone")
+                .attr("x", function (d, i) {
+                    if (parseInt(i / (wcount)) % 2 == 0) {
+                        this.xcor = (i % wcount) * zoneW;
+
+                    } else {
+                        this.xcor = (zoneW * (wcount - 1)) - ((i % wcount) * zoneW);
+
+                    }
+                    return this.xcor;
+                });
+
+
         } else if (mapMode === 2) {
             var events = [];
             g.on('click', function () {
@@ -216,7 +238,10 @@ window.onload = function () {
 
             });
 
+
+
             //А СЮДА ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ ПОСТРОЕНИЯ МАРШРУТА
+
 
 
         } else if (mapMode === 3) {
