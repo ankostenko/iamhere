@@ -36,6 +36,8 @@ def create_stage(b_id, name, i_id):
 
 def delete_data():
     for i in os.listdir("server/files/"):
+        if f"server/files/{i}" == "server/files/file.txt":
+            continue
         os.remove(f"server/files/{i}")
     for i in range(1, session.query(Stage).count() + 1):
         session.query(Stage).filter_by(id=i).delete()
