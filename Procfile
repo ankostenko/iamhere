@@ -1,4 +1,4 @@
 web: python server\/app.py
 pip install -r requirements.txt
-python server\/model.py
-python server\/test.py
+worker: python server\/model.py
+worker: python server\/test.py
