@@ -13,6 +13,7 @@ class DoorSearch:
 
     def __getFilesNames(self):
         WayFile = os.path.dirname(os.path.abspath(__file__)) + os.sep + 'image' + os.sep + 'doors'
+     
         return [WayFile + os.sep + f for f in listdir(WayFile) if isfile(join(WayFile, f)) and f[-4:] == '.png']
 
     def SearchDoors (self):

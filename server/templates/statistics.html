@@ -32,6 +32,21 @@
             </ul>
         </div>
     </nav>
+    <div class="container">
+         {% for another_requests in another_request %}
+          <!-- СЮДА ВЫВОДИТСЯ СПИСОК ЗАПРОСОВ -->
+          <div class="row row-request-{{another_requests.ip}}">
+            <div class="col-12">
+                <td nowrap="true"> {{another_requests.ip}} </td> &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                <td>{{another_requests.date}}</td>&ensp;&ensp;&ensp;&ensp;
+                <td>{{another_requests.browser}}</td>&ensp;&ensp;&ensp;&ensp;
+                <td>{{another_requests.os}} </td>&ensp;&ensp;&ensp;&ensp;
+                <td>{{another_requests.url}}</td>
+
+            </div>
+          </div>
+          {% endfor %}
+    </div>
 </body>
 
 </html>
