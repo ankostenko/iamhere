@@ -5,7 +5,7 @@ from server.routes.complexity_way import ComplexityWay
 from server.routes.searcher_way import SearcherWay
 from server.routes.image_compression import ImageCompression
 from server.routes.helper_debug.calculation_time import calculation_time
-
+from server.routes.image_compression import DominateColor
 
 class WayFinder:
     """
@@ -30,9 +30,12 @@ class WayFinder:
             list, numpy.ndarray : предрасчитанная сложность пути
         """
         if ComplexityWay.exists_complexity_way_to_json(self.__file_path) is False:
-            img = mpimg.imread(self.__file_path, 0)
+            img = mpimg.imread(self.__file_path)
 
-            image_compression = ImageCompression(img)
+            image_compression = DominateColor(img)
+            dominate_color = image_compression.get()
+
+            image_compression = ImageCompression(img, dominate_color)
             compress_img = image_compression.compress()
 
             identify_obstacles = IdentifyObstacles(compress_img)

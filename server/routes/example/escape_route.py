@@ -2,7 +2,7 @@
 Консольное приложение для распознование пути
 """
 import matplotlib.image as mpimg
-from PIL import Image
+#from PIL import Image
 import numpy
 import matplotlib.pyplot as plt
 
@@ -12,6 +12,7 @@ from server.routes.pixel import Pixel
 from server.routes.identify_obstacles import IdentifyObstacles
 from server.routes.complexity_way import ComplexityWay
 from server.routes.searcher_way import SearcherWay
+from server.routes.image_compression import DominateColor
 from server.routes.image_compression import ImageCompression
 from server.routes.way_finder import WayFinder
 
@@ -27,8 +28,11 @@ if __name__ == '__main__':
     print('Открытие файла', start_time)
     # img = mpimg.imread('simple2.png')  # simple1.png stinkbug.png
     img = mpimg.imread(file_name)  # simple1.png stinkbug.png
-    image_compression = ImageCompression(img)
-    compress_img = image_compression.compress()
+    image_compression = DominateColor(img)
+    dominate_color = image_compression.get()
+    # compress_img = image_compression.compress(img, )
+    z = ImageCompression(img, dominate_color)
+    compress_img = z.compress()
     print('Чтение данных из файла')
     print('Нахождение препятствий и свободного пространства')
     identify_obstacles = IdentifyObstacles(compress_img)
@@ -54,6 +58,7 @@ if __name__ == '__main__':
     searcher_way.save_file_way(fined_way, img)
     print('find_way_coordinate:', searcher_way.find_way_coordinate(fined_way))
 
-    # print('--- Итоговый класс для вычисление пути. ---')
-    # finder = WayFinder('C:\\Users\\ДНС\\PycharmProjects\\iamhere-dev\\example\\floor_2.png')
-    # print('find_way:', finder.find_way(819, 757, 1447, 1501))
+    print('--- Итоговый класс для вычисление пути. ---')
+    finder = WayFinder('floor_2.png')
+    print('find_way:', finder.find_way(819, 757, 1447, 1501))
+    # print('find_way:', finder.find_way(757, 819, 1501, 1447))
