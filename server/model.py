@@ -84,9 +84,9 @@ class Building(Base):
             getattr(self, c.name).decode('utf-8') for c in self.__table__.columns}
 
 def run_model():
-    engine = create_engine('sqlite:///../iamhere.db')
+    engine = create_engine('sqlite:///iamhere.db')
     Base.metadata.create_all(engine)
 
 if __name__ == '__main__':
-    engine = create_engine('sqlite:///../iamhere.db')
+    engine = create_engine('sqlite:///iamhere.db')
     Base.metadata.create_all(engine)
