@@ -1,1 +1,5 @@
+libice6
 libsm6
+libxrender1
+libfontconfig1
+libxext6
