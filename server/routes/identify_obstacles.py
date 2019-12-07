@@ -53,9 +53,10 @@ class IdentifyObstacles:
         """
         for row_source, row_pixel in zip(source_img, self.__pixels):
             for source_pixel, pixel in zip(row_source, row_pixel):
-                color = 1.0 - pixel.surface.surface_type.difficulty_overcome
-                source_pixel[0] = color
-                source_pixel[1] = color
-                source_pixel[2] = color
+                if pixel:
+                    color = 1.0 - pixel.surface.surface_type.difficulty_overcome
+                    source_pixel[0] = color
+                    source_pixel[1] = color
+                    source_pixel[2] = color
         path = PathLogs.get_path_obstacles_file()
         mpimg.imsave(path, source_img)  # , format="'png'"

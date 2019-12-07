@@ -1,3 +1,11 @@
 flask
 flask_restplus
+<<<<<<< HEAD
 sqlalchemy
+=======
+sqlalchemy
+simplejson
+pillow
+matplotlib
+opencv-python
+>>>>>>> c8416cd21be03c4c659c4f7808cde9e569aa4f51
