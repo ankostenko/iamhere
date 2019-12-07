@@ -23,8 +23,8 @@ window.onload = function () {
     let placeLink = document.getElementById('place-link');
     let placeLinkNone = document.getElementById('place-link__none');
     var floor = url.searchParams.get("f");
-    var x = url.searchParams.get("x")
-    var y = url.searchParams.get("y")
+    var x1 = url.searchParams.get("x")
+    var y1 = url.searchParams.get("y")
     if (floor == null) {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
     }
@@ -54,14 +54,14 @@ window.onload = function () {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
     }
 
-    if (x == null) {
-        x = -10000;
+    if (x1 == null) {
+        x1 = -10000;
     }
 
-    if (y == null) {
-        y = -10000;
+    if (y1 == null) {
+        y1 = -10000;
     }
-
+    let imageId;
 
 
     document.getElementsByClassName('circle-' + floor)[0].classList.add('select-circle');
@@ -71,7 +71,7 @@ window.onload = function () {
     Request.addEventListener("readystatechange", () => {
         if (Request.readyState === 4 && Request.status === 200) {
             let obj = JSON.parse(Request.response);
-            let imageId = obj['image_id'];
+            imageId = obj['image_id'];
             var imageRequest = new XMLHttpRequest();
             imageRequest.open('GET', '/api/v1/image/' + imageId, true);
             imageRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -115,7 +115,7 @@ window.onload = function () {
 
                     d3.select(window).on('resize', resize);
                     g.selectAll(".here-circle").data([
-                            [x, y]
+                            [x1, y1]
                         ])
                         .enter()
                         .append("svg:image")
@@ -132,7 +132,7 @@ window.onload = function () {
                             return d[1];
                         });
                     g.selectAll(".hence-circle").data([
-                            [x, y]
+                            [x1, y1]
                         ])
                         .enter()
                         .append("svg:image")
@@ -191,44 +191,58 @@ window.onload = function () {
         if (mapMode === 1) { // СЮДА ФИГАЧИМ ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ "Я ЗДЕСЬ!"
 
             var coords = d3.mouse(svg.node());
-            var x = Math.round(coords[0]);
-            var y = Math.round(coords[1]);
+            x1 = Math.round(coords[0]);
+            y1 = Math.round(coords[1]);
             g.selectAll(".here-circle")
-                .attr('x', Math.round((x - translateVar[0]) / scaleVar) - 53)
-                .attr('y', Math.round((y - translateVar[1]) / scaleVar) - 90);
-            window.history.pushState('', '', `?f=${floor}&x=${Math.round(x)}&y=${Math.round(y)}`);
+                .attr('x', Math.round((x1 - translateVar[0]) / scaleVar) - 53)
+                .attr('y', Math.round((y1 - translateVar[1]) / scaleVar) - 90);
+            window.history.pushState('', '', `?f=${floor}&x=${Math.round(x1)}&y=${Math.round(y1)}`);
 
 
         } else if (mapMode === 2) {
             var coords = d3.mouse(svg.node());
             var x = Math.round(coords[0]);
             var y = Math.round(coords[1]);
+            let obj = {
+                "start_row": Math.round((+y1 - translateVar[1]) / scaleVar),
+                "start_col": Math.round((+x1 - translateVar[0]) / scaleVar),
+                "end_row": Math.round((y - translateVar[1]) / scaleVar),
+                "end_col": Math.round((x - translateVar[0]) / scaleVar)
+            }
+            let jsonObj = JSON.stringify(obj);
             g.selectAll(".hence-circle")
                 .attr('x', Math.round((x - translateVar[0]) / scaleVar) - 53)
                 .attr('y', Math.round((y - translateVar[1]) / scaleVar) - 90);
+            var routeRequest = new XMLHttpRequest();
+            routeRequest.open('POST', '/api/v1/way/' + imageId, true);
+            routeRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            routeRequest.addEventListener('readystatechange', () => {
+                if (routeRequest.readyState === 4 && routeRequest.status === 200) {
+                    let dataJson = routeRequest.response;
+                    let lineData = JSON.parse(dataJson);
+                    d3.select('.myline').remove()
+                    let line = d3.line()
+                        .x(function (d) {
+                            return Math.round((d[1] * scaleVar - translateVar[0]))
+                        })
+                        .y(function (d) {
+                            return Math.round((d[0] * scaleVar - translateVar[1]))
+                        })
 
+                    g.append('path')
+                        .attr('class', 'line')
+                        .attr('d', line(lineData))
+                        .attr('stroke-width', 3)
+                        .attr('stroke', 'red')
+                        .attr('fill', 'none')
+                        .attr('class', 'myline');
+
+                    debugger;
+                }
+            });
+            routeRequest.send(jsonObj);
             //lineData = data;
-            var lineData = [
-                [569, 1413],
-                [875, 800],
-                [864, 1352],
-            ];
-            d3.select('.myline').remove()
-            let line = d3.line()
-                .x(function (d) {
-                    return Math.round((d[1] - translateVar[0]))
-                })
-                .y(function (d) {
-                    return Math.round((d[0] - translateVar[1]))
-                })
-                
-            g.append('path')
-                .attr('class', 'line')
-                .attr('d', line(lineData))
-                .attr('stroke-width', 3)
-                .attr('stroke', 'red')
-                .attr('fill', 'none')
-                .attr('class', 'myline');
+
 
             //А СЮДА ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ ПОСТРОЕНИЯ МАРШРУТА
         } else if (mapMode === 3) {
