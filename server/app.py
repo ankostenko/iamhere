@@ -26,7 +26,7 @@ api = api.namespace('', description='Сервис картографии для 
 upload_parser = api.parser()
 upload_parser.add_argument('file', location='files',
                            type=FileStorage, required=True)
-engine = create_engine('sqlite:///%s' % 'iamhere.db?charset=utf8', connect_args={'check_same_thread': False})
+engine = create_engine('sqlite:///../%s' % 'iamhere.db?charset=utf8', connect_args={'check_same_thread': False})
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()

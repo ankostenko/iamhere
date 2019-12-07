@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from server.model import File
 
-engine = create_engine('sqlite:///%s' % 'iamhere.db?charset=utf8', connect_args={'check_same_thread': False})
+engine = create_engine('sqlite:///../%s' % 'iamhere.db?charset=utf8', connect_args={'check_same_thread': False})
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -39,6 +39,8 @@ def delete_data():
         os.remove(f"files/{i}")
     for i in range(1, session.query(Stage).count() + 1):
         session.query(Stage).filter_by(id=i).delete()
+    for i in range(1, session.query(Building).count() + 1):
+        session.query(Building).filter_by(name="test").delete()
     for i in range(1, session.query(Building).count() + 1):
         session.query(Building).filter_by(name="Тензор").delete()
     for i in range(1, session.query(File).count() + 1):
