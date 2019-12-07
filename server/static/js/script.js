@@ -35,6 +35,16 @@ window.onload = function () {
     [].forEach.call(userMenuItems, function (elem) {
         elem.addEventListener('click', function (e) {
             if (e.srcElement.dataset.mapMode !== mapMode) {
+                if (e.srcElement.parentElement.parentElement.parentElement.parentElement.dataset.mapMode === '4') {
+                    document.getElementsByClassName('select-circle-menu')[0].classList.remove('select-circle-menu');
+                    document.getElementsByClassName('circle-menu-lbl')[0].classList.add('select-circle-menu');
+                    mapMode = Number(e.srcElement.dataset.mapMode);
+                    let nv = document.getElementsByClassName('navbar-nav')[0];
+                
+                    
+                    return;
+
+                }
                 document.getElementsByClassName('select-circle-menu')[0].classList.remove('select-circle-menu');
                 e.srcElement.parentElement.parentElement.classList.add('select-circle-menu');
                 mapMode = Number(e.srcElement.dataset.mapMode);
@@ -44,7 +54,7 @@ window.onload = function () {
     var scaleVar = 1;
     var translateVar = [0, 0];
     var g = svg.append("g");
-   
+
 
     /*
      * Здесь надо получить данные из ссылки 
@@ -113,11 +123,11 @@ window.onload = function () {
                             .attr('height', "100%")
                     };
                     resize();
-                    
+
                     d3.select(window).on('resize', resize);
                     g.selectAll(".here-circle").data([
-                            [x, y]
-                        ])
+                        [x, y]
+                    ])
                         .enter()
                         .append("svg:image")
                         .attr("xlink:href", "https://psv4.userapi.com/c856236/u223208300/docs/d17/940fe658c332/placeholder.svg?extra=U7pyHY43wpEQrZWBWRHAu8a-K5DkB8Bf10z1PqAyBnZIZ5v2CvnGrpbUkc66irDwz68f__EkIIyXsJuIbzJHKC_itwufEAtceJkMGstgBc_s1GzRWspdydl-eqWjcfTRd4CFdqLNcTUTJnmKHz_rv6922g&dl=1")
@@ -172,14 +182,14 @@ window.onload = function () {
 
     svg.on("click", function () {
         if (mapMode === 1) { // СЮДА ФИГАЧИМ ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ "Я ЗДЕСЬ!"
-            
+
             var coords = d3.mouse(svg.node());
             var x = Math.round(coords[0]);
             var y = Math.round(coords[1]);
             g.selectAll(".here-circle")
                 .attr('x', Math.round((x - translateVar[0]) / scaleVar) - 53)
                 .attr('y', Math.round((y - translateVar[1]) / scaleVar) - 90);
-                window.history.pushState('','',`?f=${floor}&x=${Math.round(x)}&y=${Math.round(y)}`);
+            window.history.pushState('', '', `?f=${floor}&x=${Math.round(x)}&y=${Math.round(y)}`);
 
 
         } else if (mapMode === 2) {
@@ -244,6 +254,14 @@ window.onload = function () {
     placeLink.addEventListener('click', function (e) {
         // ОБРАБОТКА КЛИКА ПО ИНПУТУ С ССЫЛКОЙ
     })
+    let lbls = document.getElementsByClassName('lbl');
+    for (var i = 0, len = lbls.length; i < len; i++) lbls[i].onclick = changeLbl;
+    function changeLbl(e) {
+        let id = e.srcElement.id;
+        let nv = document.getElementsByClassName('navbar-nav')[0];
+        
+    }
+
     var elems = document.querySelectorAll(".circle");
     for (var i = 0, len = elems.length; i < len; i++) elems[i].onclick = changeFloor;
     d3.select(self.frameElement).style("height", height + "px");
