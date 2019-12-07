@@ -9,7 +9,8 @@ window.onload = function () {
         .attr("width", "100%")
         .attr("height", "100%")
         .attr('id', 'map')
-        .attr("preserveAspectRatio", "xMidYMid meet");
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("xmlns", "http://www.w3.org/2000/svg");
     let mapMode = 1;
     /*
      * 1 - Положение на карте
@@ -85,8 +86,22 @@ window.onload = function () {
     Request.open('GET', '/api/v1/stage/' + floor, true);
     Request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     Request.addEventListener("readystatechange", () => {
+
+
+    var Request2 = new XMLHttpRequest();
+    Request2.open('GET', '/api/v1/tag', true);
+    Request2.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    Request2.addEventListener("readystatechange", () => {
         if (Request.readyState === 4 && Request.status === 200) {
-            let obj = JSON.parse(Request.response);
+            let obj = JSON.parse(Request.response)
+
+            let obj2 = JSON.parse(Request2.response)
+            let tags = [], stagesId = []
+            for (var i = 0; i < obj2.counters.length; i++) {
+                tags[i] = obj2[i];
+                stagesId[i] = obj2.file_type[i]
+            }
+           
             imageId = obj['image_id'];
             var imageRequest = new XMLHttpRequest();
             imageRequest.open('GET', '/api/v1/image/' + imageId, true);
@@ -105,6 +120,24 @@ window.onload = function () {
                         .attr("xlink:href", '../../files/' + img)
                         .attr("data-image-id", +imageId)
                         .attr('id', 'map-image');
+
+                    map.data(stagesId)
+                    .enter()
+                    .append("svg:image")
+                    .attr("xlink:href", () =>{
+                        
+                    })
+                    .attr("class", "tags")
+                    .attr("id", "cent")
+                    .attr("width", "80px")
+                    .attr("stroke", stroke)
+                    .attr("stroke-width", strokeWidth)
+                    .attr("x", function (d) {
+                        return 
+                    })
+                    .attr("y", function (d) {
+                        return d[1];
+                    });
 
                     svg.call(d3.zoom().on("zoom", () => {
                         let t = d3.event.transform;
@@ -296,6 +329,12 @@ window.onload = function () {
                     svg.append('path')
                         .attr('class', 'line')
                         .attr('d', line(lineData))
+<<<<<<< HEAD
+                        .attr('stroke-width', 10)
+                        .attr('stroke', 'red')
+                        .attr('fill', 'none')
+                        .attr('class', 'myline')
+=======
                         .attr('stroke-width', 10 * scaleVar)
                         .attr('stroke', 'red')
                         .attr('fill', 'none')
@@ -303,6 +342,7 @@ window.onload = function () {
 
 
                     debugger;
+>>>>>>> 88dac2b298612642c3b9e20b0fd54a4632ef956e
                 }
             });
             routeRequest.send(jsonObj);
