@@ -4,4 +4,4 @@ sqlalchemy
 simplejson
 pillow
 matplotlib
-opencv_python
+opencv-python
