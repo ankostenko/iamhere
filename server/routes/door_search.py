@@ -40,8 +40,8 @@ class DoorSearch:
     def Search (self, ReadImage):
         Set=self.SearchDoors()
         for row, col, w, h in Set:
-            for clear_row in range(row, row + w):
-                for clear_col in range(col, col + h):
+            for clear_row in range(row - 1, row + w +1):
+                for clear_col in range(col - 1, col + h + 1):
                     #print (clear_row,"/",clear_col,"/",w,"/",h)
                     ReadImage[clear_col][clear_row].surface = Surface(SurfaceType.FREE_SPACE)
 
