@@ -83,6 +83,10 @@ class Building(Base):
         return {c.name: getattr(self, c.name) if type(getattr(self, c.name)) != bytes else \
             getattr(self, c.name).decode('utf-8') for c in self.__table__.columns}
 
+def run_model():
+    engine = create_engine('sqlite:///iamhere.db')
+    Base.metadata.create_all(engine)
+
 if __name__ == '__main__':
     engine = create_engine('sqlite:///iamhere.db')
     Base.metadata.create_all(engine)
