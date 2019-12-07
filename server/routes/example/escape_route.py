@@ -55,5 +55,5 @@ if __name__ == '__main__':
     print('find_way_coordinate:', searcher_way.find_way_coordinate(fined_way))
 
     # print('--- Итоговый класс для вычисление пути. ---')
-    # finder = WayFinder('C:\\Users\\ДНС\\PycharmProjects\\iamhere-dev\\example\\floor_2.png')
-    # print('find_way:', finder.find_way(819, 757, 1447, 1501))
+    finder = WayFinder('C:\\Users\\ДНС\\PycharmProjects\\iamhere-dev\\example\\floor_2.png')
+    print('find_way:', finder.find_way(819, 757, 1447, 1501))
