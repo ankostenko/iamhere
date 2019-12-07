@@ -55,6 +55,7 @@ class Stage(Base):
     building_id = Column(Integer, ForeignKey('building.id'))
     name = Column(String, nullable=False)
     image_id = Column(Integer, ForeignKey('file.id'))
+    tags = relationship('Tag', backref='stage', lazy=True)
 
     def __init__(self, building_id, name, image_id, id=None):
         self.id = id

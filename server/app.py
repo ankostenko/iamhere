@@ -152,8 +152,7 @@ class TagAPI(Resource):
         session.commit()
         return 'OK'
 
-
-@api.route('/tags')
+@api.route('/tags/')
 class TagsAPI(Resource):
     tag = api.model('Tag', {
         'name': fields.String,
@@ -165,9 +164,31 @@ class TagsAPI(Resource):
         'length_in_days': fields.Integer,
     })
 
-    def get(self):
+
+    @api.expect(tag)
+    def post(self):
+        created = datetime.strptime(request.json['created'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        request.json['created'] = created
+        tag = Tag(**request.json)
+        session.add(tag)
+        session.commit()
+        return tag.id
+
+@api.route('/tags/<int:id>')
+class TagsAPI(Resource):
+    tag = api.model('Tag', {
+        'name': fields.String,
+        'x': fields.Integer,
+        'y': fields.Integer,
+        'file_type': fields.Integer,
+        'stage_id': fields.Integer,
+        'created': fields.DateTime,
+        'length_in_days': fields.Integer,
+    })
+
+    def get(self, id):
         result = []
-        for tag in session.query(Tag).all():
+        for tag in session.query(Tag).filter_by(stage_id=id).all():
             if (datetime.now() < tag.created + timedelta(days=tag.length_in_days)):
                 result.append(tag.as_dict())
             else:
@@ -182,14 +203,6 @@ class TagsAPI(Resource):
         # d.execute()
         return make_response(str(result))
 
-    @api.expect(tag)
-    def post(self):
-        created = datetime.strptime(request.json['created'], '%Y-%m-%dT%H:%M:%S.%fZ')
-        request.json['created'] = created
-        tag = Tag(**request.json)
-        session.add(tag)
-        session.commit()
-        return tag.id
 
 @api.route('/way/<int:id>')
 class WayFinderApi(Resource):
