@@ -313,7 +313,7 @@ def before_request():
     # request.json['date'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # request.json['browser'] = request.user_agent.browser
     # request.json['os'] = request.user_agent.platform
-    # "%Y-%m-%d %H:%M:%S"
+    # "%Y-%m-%d %H:%M:%S"pyth
     ip = request.remote_addr
     # stats = Stats(ip,
     #               datetime.strptime(str(datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%fZ')), '%Y-%m-%dT%H:%M:%S.%fZ'),
