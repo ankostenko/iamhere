@@ -1,10 +1,13 @@
 import matplotlib.image as mpimg
-
+import cv2
 from server.routes.identify_obstacles import IdentifyObstacles
 from server.routes.complexity_way import ComplexityWay
 from server.routes.searcher_way import SearcherWay
 from server.routes.image_compression import ImageCompression
 from server.routes.helper_debug.calculation_time import calculation_time
+from server.routes.door_search import DoorSearch
+from server.routes.image_compression import DominateColor
+from server.routes.searcher_coordinate import SearcherCoordinate
 
 
 class WayFinder:
@@ -30,13 +33,20 @@ class WayFinder:
             list, numpy.ndarray : предрасчитанная сложность пути
         """
         if ComplexityWay.exists_complexity_way_to_json(self.__file_path) is False:
-            img = mpimg.imread(self.__file_path, 0)
+            img = mpimg.imread(self.__file_path)
 
-            image_compression = ImageCompression(img)
+            image_compression = DominateColor(img)
+            dominate_color = image_compression.get()
+
+            image_compression = ImageCompression(img, dominate_color)
             compress_img = image_compression.compress()
 
             identify_obstacles = IdentifyObstacles(compress_img)
             identify_obstacles.find_obstacle_and_free_space()
+
+            imgDoor = cv2.imread(self.__file_path)
+            door = DoorSearch(imgDoor)
+            door.Search(compress_img)
 
             complexity_way = ComplexityWay(compress_img)
             complexity_way.find_complexity_way()
@@ -69,8 +79,12 @@ class WayFinder:
         #
         # complexity_way = ComplexityWay(compress_img)
         # complexity_way.find_complexity_way()
+     
         compress_img = self.get_complexity_way()
 
         searcher_way = SearcherWay(compress_img)
-        fined_way = searcher_way.find_way((start_row, start_col), (end_row, end_col))
+        fined_way = searcher_way.find_way(
+            SearcherCoordinate((start_row, start_col), compress_img).get_coordinate(),
+            SearcherCoordinate((end_row, end_col), compress_img).get_coordinate()
+        )
         return searcher_way.find_way_coordinate(fined_way)

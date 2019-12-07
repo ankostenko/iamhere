@@ -54,7 +54,8 @@ class SearcherWay:
         Очищает пути поиска
         """
         for pixel in itertools.chain.from_iterable(self.__pixels):
-            pixel.way = None
+            if pixel is not None:
+                pixel.way = None
 
     @calculation_time
     def find_way(self, start_point, end_point):

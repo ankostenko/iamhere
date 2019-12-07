@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 language: python
 python:
   - "3.7"
@@ -7,8 +8,21 @@ install:
   - pip install -r requirements.txt
 
 script:
+  - python server/pathtest.py
   - python server/app.py
+=======
+language: python
+python:
+  - "3.7"
+  - "3.8"
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - python server/test.py
 
 env:
   - PYTHONPATH="../iamhere"
   
+>>>>>>> c8416cd21be03c4c659c4f7808cde9e569aa4f51
