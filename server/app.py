@@ -203,7 +203,7 @@ class WayFinderApi(Resource):
     def post(self, id):
         filename = session.query(File).filter_by(id=id).first().name
 
-        finder = WayFinder(os.path.join('files', filename))
+        finder = WayFinder(os.path.join('server', 'files', filename))
         #finder = WayFinder('C:\\Users\\ДНС\\PycharmProjects\\iamhere-dev\\example\\floor_2.png')
 
         return finder.find_way(**request.json)
