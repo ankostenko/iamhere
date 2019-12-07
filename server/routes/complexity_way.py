@@ -37,7 +37,7 @@ class ComplexityWay:
             generator: координаты припятствий
         """
         return itertools.chain.from_iterable(
-            ((x, y) for x, pixel in enumerate(row) if pixel.surface.surface_type == SurfaceType.OBSTACLE)
+            ((x, y) for x, pixel in enumerate(row) if pixel is not None and pixel.surface.surface_type == SurfaceType.OBSTACLE)
             for y, row in enumerate(self.__pixels)
         )
 
@@ -119,6 +119,7 @@ class ComplexityWay:
                     ((col - 1, row), (col + 1, row), (col, row - 1), (col, row + 1))
                     if (
                             0 <= new_col < len_col and 0 <= new_row < len_row and
+                            self.__pixels[new_row][new_col] is not None and
                             self.__pixels[new_row][new_col].surface.difficulty_overcome == 0.
                     )
                 )
@@ -160,7 +161,7 @@ class ComplexityWay:
         """
         for row_source, row_pixel in zip(source_img, self.__pixels):
             for source_pixel, pixel in zip(row_source, row_pixel):
-                if pixel.surface.surface_type == SurfaceType.FREE_SPACE:
+                if pixel is not None and pixel.surface.surface_type == SurfaceType.FREE_SPACE :
                     difficulty_overcome = pixel.surface.difficulty_overcome
                     source_pixel[0] = 1.0 - difficulty_overcome
                     source_pixel[1] = 1.0
