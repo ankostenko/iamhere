@@ -57,14 +57,49 @@
                     <div data-map-mode="2"><img data-map-mode="2" src="../../static/images/route-menu-black.svg"
                             height="30px" width="30px"></div>
                 </div>
-                <input type="text" class="form-control place-link__inp" id="place-link__none" readonly
-                    placeholder="Ссылка на место" aria-label="Ссылка на место">
-                <div class="circle-menu">
-                    <div data-map-mode="3"> <img data-map-mode="3" src="../../static/images/label-menu-black.svg"
-                            height="30px" width="30px"></div>
-                </div>
+
+
+                <nav >
+                    <div class="circle-menu circle-menu-lbl" data-map-mode="4">
+                    <div  class="user-menu__item" data-map-mode="4">
+                        <button  class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-map-mode="4"
+                            data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
+                            aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
+                                    class="fas fa-bars fa-1x"><img  src="../../static/images/Settings.svg" height="30px"
+                                        width="30px"></i></a></span></button>
+                    </div>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link lbl" href="#"><img id="Settings"
+                                        src="../../static/images/placeholder.svg" height="40px" width="40px"><span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link lbl" href="#"><img id="Good" src="../../static/images/Good.svg"
+                                        height="40px" width="40px"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link lbl" href="#"><img id="Bad" src="../../static/images/Bad.svg"
+                                        height="40px" width="40px"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link lbl" href="#"><img id="Food" src="../../static/images/Food.svg"
+                                        height="40px" width="40px"></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </nav>
             </div>
+
+            <input type="text" class="form-control place-link__inp" id="place-link__none" readonly
+                placeholder="Ссылка на место" aria-label="Ссылка на место">
+
         </div>
+    </div>
     </div>
 
 </body>

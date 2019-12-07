@@ -79,6 +79,7 @@ class WayFinder:
         #
         # complexity_way = ComplexityWay(compress_img)
         # complexity_way.find_complexity_way()
+     
         compress_img = self.get_complexity_way()
 
         searcher_way = SearcherWay(compress_img)

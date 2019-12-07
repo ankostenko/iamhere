@@ -9,7 +9,8 @@ window.onload = function () {
         .attr("width", "100%")
         .attr("height", "100%")
         .attr('id', 'map')
-        .attr("preserveAspectRatio", "xMidYMid meet");
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("xmlns", "http://www.w3.org/2000/svg");
     let mapMode = 1;
     /*
      * 1 - Положение на карте
@@ -18,6 +19,9 @@ window.onload = function () {
      */
 
     let userMenuItems = document.getElementsByClassName('circle-menu');
+    let line;
+    let lineData;
+    let checkSecondLabel = false;
     var url_string = window.location.href;
     var url = new URL(url_string);
     let placeLink = document.getElementById('place-link');
@@ -35,9 +39,22 @@ window.onload = function () {
     [].forEach.call(userMenuItems, function (elem) {
         elem.addEventListener('click', function (e) {
             if (e.srcElement.dataset.mapMode !== mapMode) {
+                if (e.srcElement.parentElement.parentElement.parentElement.parentElement.dataset.mapMode === '4') {
+                    document.getElementsByClassName('select-circle-menu')[0].classList.remove('select-circle-menu');
+                    document.getElementsByClassName('circle-menu-lbl')[0].classList.add('select-circle-menu');
+                    mapMode = Number(e.srcElement.dataset.mapMode);
+                    let nv = document.getElementsByClassName('navbar-nav')[0];
+                
+                    
+                    return;
+
+                }
                 document.getElementsByClassName('select-circle-menu')[0].classList.remove('select-circle-menu');
                 e.srcElement.parentElement.parentElement.classList.add('select-circle-menu');
                 mapMode = Number(e.srcElement.dataset.mapMode);
+                if (mapMode === 2) checkSecondLabel = true; else checkSecondLabel=false;
+                d3.select('.myline').remove()
+                d3.select('.hence-circle').remove()
             }
         })
     });
@@ -69,8 +86,22 @@ window.onload = function () {
     Request.open('GET', '/api/v1/stage/' + floor, true);
     Request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     Request.addEventListener("readystatechange", () => {
+
+
+    var Request2 = new XMLHttpRequest();
+    Request2.open('GET', '/api/v1/tag', true);
+    Request2.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    Request2.addEventListener("readystatechange", () => {
         if (Request.readyState === 4 && Request.status === 200) {
-            let obj = JSON.parse(Request.response);
+            let obj = JSON.parse(Request.response)
+
+            let obj2 = JSON.parse(Request2.response)
+            let tags = [], stagesId = []
+            for (var i = 0; i < obj2.counters.length; i++) {
+                tags[i] = obj2[i];
+                stagesId[i] = obj2.file_type[i]
+            }
+           
             imageId = obj['image_id'];
             var imageRequest = new XMLHttpRequest();
             imageRequest.open('GET', '/api/v1/image/' + imageId, true);
@@ -90,8 +121,30 @@ window.onload = function () {
                         .attr("data-image-id", +imageId)
                         .attr('id', 'map-image');
 
+                    map.data(stagesId)
+                    .enter()
+                    .append("svg:image")
+                    .attr("xlink:href", () =>{
+                        
+                    })
+                    .attr("class", "tags")
+                    .attr("id", "cent")
+                    .attr("width", "80px")
+                    .attr("stroke", stroke)
+                    .attr("stroke-width", strokeWidth)
+                    .attr("x", function (d) {
+                        return 
+                    })
+                    .attr("y", function (d) {
+                        return d[1];
+                    });
+
                     svg.call(d3.zoom().on("zoom", () => {
                         let t = d3.event.transform;
+                        if(!checkSecondLabel){
+                            d3.select('.myline').remove();
+                        }
+                        svg.selectAll('.myline').remove();
                         if (t.k >= 0.5) {
                             g.attr("transform", t);
                             translateVar[0] = t.x;
@@ -105,6 +158,15 @@ window.onload = function () {
                             translateVar[0] = t.x;
                             translateVar[1] = t.y;
                         }
+                        svg.append('path')
+                            .attr('class', 'line')
+                            .attr('d', line(lineData))
+                            .attr('stroke-width', 10 * scaleVar)
+                            .attr('stroke', 'red')
+                            .attr('fill', 'none')
+                            .attr('class', 'myline');
+
+
                     }));
 
                     let resize = () => {
@@ -115,8 +177,13 @@ window.onload = function () {
 
                     d3.select(window).on('resize', resize);
                     g.selectAll(".here-circle").data([
+<<<<<<< HEAD
+                        [x, y]
+                    ])
+=======
                             [x1, y1]
                         ])
+>>>>>>> c1a3ad93ff056b7a86fddc52f45a9c0552dd25ae
                         .enter()
                         .append("svg:image")
                         .attr("xlink:href", "https://psv4.userapi.com/c856220/u223208300/docs/d13/0c10d9df03ee/placeholder_1.svg?extra=G_8SkZskxMPuibJDBp3vpxIeEcWpmGz2wQ3Wqx41hQAJc9YNK5DI8HH_bTPwPpKVZFGXRLv-Cn12G--hGZFkZDEX8WjHandlF8055L0Y5_SFE1LP7JI5BqKZfbzuG-aulk41LqMwCVzV1gdsvx9q1Jr3AQ&dl=1")
@@ -126,13 +193,13 @@ window.onload = function () {
                         .attr("stroke", stroke)
                         .attr("stroke-width", strokeWidth)
                         .attr("x", function (d) {
-                            return d[0];
+                            return d[0] - 53;
                         })
                         .attr("y", function (d) {
-                            return d[1];
+                            return d[1] - 90;
                         });
                     g.selectAll(".hence-circle").data([
-                            [x1, y1]
+                            [-10000, -10000]
                         ])
                         .enter()
                         .append("svg:image")
@@ -163,7 +230,7 @@ window.onload = function () {
         Request.addEventListener("readystatechange", () => {
             if (Request.readyState === 4 && Request.status === 200) {
                 let obj = JSON.parse(Request.response);
-                let imageId = obj['image_id'];
+                imageId = obj['image_id'];
                 var imageRequest = new XMLHttpRequest();
                 imageRequest.open('GET', '/api/v1/image/' + imageId, true);
                 imageRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -189,55 +256,93 @@ window.onload = function () {
 
     svg.on("click", function () {
         if (mapMode === 1) { // СЮДА ФИГАЧИМ ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ "Я ЗДЕСЬ!"
+<<<<<<< HEAD
 
+=======
+            d3.select('.myline').remove()
+            d3.select('.hence-circle').remove()
             var coords = d3.mouse(svg.node());
             x1 = Math.round(coords[0]);
             y1 = Math.round(coords[1]);
+
             g.selectAll(".here-circle")
                 .attr('x', Math.round((x1 - translateVar[0]) / scaleVar) - 53)
                 .attr('y', Math.round((y1 - translateVar[1]) / scaleVar) - 90);
-            window.history.pushState('', '', `?f=${floor}&x=${Math.round(x1)}&y=${Math.round(y1)}`);
+            window.history.pushState('', '', `?f=${floor}&x=${Math.round((x1 - translateVar[0]) / scaleVar)}&y=${Math.round((y1 - translateVar[1]) / scaleVar)}`);
+
 
 
         } else if (mapMode === 2) {
+>>>>>>> c1a3ad93ff056b7a86fddc52f45a9c0552dd25ae
             var coords = d3.mouse(svg.node());
             var x = Math.round(coords[0]);
             var y = Math.round(coords[1]);
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var x1 = url.searchParams.get("x")
+            var y1 = url.searchParams.get("y")
             let obj = {
-                "start_row": Math.round((+y1 - translateVar[1]) / scaleVar),
-                "start_col": Math.round((+x1 - translateVar[0]) / scaleVar),
+                "start_row": Math.round(url.searchParams.get("y")),
+                "start_col": Math.round(url.searchParams.get("x")),
                 "end_row": Math.round((y - translateVar[1]) / scaleVar),
                 "end_col": Math.round((x - translateVar[0]) / scaleVar)
             }
             let jsonObj = JSON.stringify(obj);
-            g.selectAll(".hence-circle")
+            d3.select('.hence-circle').remove()
+            g.selectAll(".hence-circle").data([
+                    [-10000, -10000]
+                ])
+                .enter()
+                .append("svg:image")
+                .attr("xlink:href", "https://psv4.userapi.com/c856236/u223208300/docs/d17/940fe658c332/placeholder.svg?extra=U7pyHY43wpEQrZWBWRHAu8a-K5DkB8Bf10z1PqAyBnZIZ5v2CvnGrpbUkc66irDwz68f__EkIIyXsJuIbzJHKC_itwufEAtceJkMGstgBc_s1GzRWspdydl-eqWjcfTRd4CFdqLNcTUTJnmKHz_rv6922g&dl=1")
+                .attr("class", "hence-circle")
+                .attr("id", "cent")
+                .attr("width", "120px")
+                .attr("stroke", stroke)
+                .attr("stroke-width", strokeWidth)
                 .attr('x', Math.round((x - translateVar[0]) / scaleVar) - 53)
                 .attr('y', Math.round((y - translateVar[1]) / scaleVar) - 90);
+<<<<<<< HEAD
+            window.history.pushState('', '', `?f=${floor}&x=${Math.round(x)}&y=${Math.round(y)}`);
+=======
+>>>>>>> c1a3ad93ff056b7a86fddc52f45a9c0552dd25ae
+
+
             var routeRequest = new XMLHttpRequest();
             routeRequest.open('POST', '/api/v1/way/' + imageId, true);
             routeRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             routeRequest.addEventListener('readystatechange', () => {
                 if (routeRequest.readyState === 4 && routeRequest.status === 200) {
                     let dataJson = routeRequest.response;
-                    let lineData = JSON.parse(dataJson);
+                    lineData = JSON.parse(dataJson);
                     d3.select('.myline').remove()
-                    let line = d3.line()
+                    line = d3.line()
+                        .curve(d3.curveBasis)
                         .x(function (d) {
-                            return Math.round((d[1] * scaleVar - translateVar[0]))
+                            return Math.round((d[1] * scaleVar + translateVar[0]))
                         })
                         .y(function (d) {
-                            return Math.round((d[0] * scaleVar - translateVar[1]))
+                            return Math.round((d[0] * scaleVar + translateVar[1]))
                         })
 
-                    g.append('path')
+
+                    svg.append('path')
                         .attr('class', 'line')
                         .attr('d', line(lineData))
-                        .attr('stroke-width', 3)
+<<<<<<< HEAD
+                        .attr('stroke-width', 10)
                         .attr('stroke', 'red')
                         .attr('fill', 'none')
-                        .attr('class', 'myline');
+                        .attr('class', 'myline')
+=======
+                        .attr('stroke-width', 10 * scaleVar)
+                        .attr('stroke', 'red')
+                        .attr('fill', 'none')
+                        .attr('class', 'myline')
+
 
                     debugger;
+>>>>>>> 88dac2b298612642c3b9e20b0fd54a4632ef956e
                 }
             });
             routeRequest.send(jsonObj);
@@ -267,11 +372,20 @@ window.onload = function () {
         translateVar = [0, 0];
         g.attr("transform", "translate(0, 0)scale(1)");
         changexlinkhref(floor);
+        window.history.pushState('page2', 'Title', '/building/' + d.currentTarget.dataset.buildingId + '?f=' + floor);
     };
 
     placeLink.addEventListener('click', function (e) {
         // ОБРАБОТКА КЛИКА ПО ИНПУТУ С ССЫЛКОЙ
     })
+    let lbls = document.getElementsByClassName('lbl');
+    for (var i = 0, len = lbls.length; i < len; i++) lbls[i].onclick = changeLbl;
+    function changeLbl(e) {
+        let id = e.srcElement.id;
+        let nv = document.getElementsByClassName('navbar-nav')[0];
+        
+    }
+
     var elems = document.querySelectorAll(".circle");
     for (var i = 0, len = elems.length; i < len; i++) elems[i].onclick = changeFloor;
     d3.select(self.frameElement).style("height", height + "px");
