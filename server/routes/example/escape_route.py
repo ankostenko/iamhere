@@ -25,7 +25,7 @@ if __name__ == '__main__':
     #     for pixel in row:
     #         print(pixel, end='')
     #     print('')
-    file_name = 'floor_1.png'
+    file_name = 'floor_2.png'
     start_time = datetime.now()
     print('Открытие файла', start_time)
     # img = mpimg.imread('simple2.png')  # simple1.png stinkbug.png
