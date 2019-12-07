@@ -44,7 +44,7 @@ window.onload = function () {
     var scaleVar = 1;
     var translateVar = [0, 0];
     var g = svg.append("g");
-   
+
 
     /*
      * Здесь надо получить данные из ссылки 
@@ -105,7 +105,6 @@ window.onload = function () {
                             translateVar[0] = t.x;
                             translateVar[1] = t.y;
                         }
-
                     }));
 
                     let resize = () => {
@@ -113,15 +112,32 @@ window.onload = function () {
                             .attr('height', "100%")
                     };
                     resize();
-                    
+
                     d3.select(window).on('resize', resize);
                     g.selectAll(".here-circle").data([
                             [x, y]
                         ])
                         .enter()
                         .append("svg:image")
-                        .attr("xlink:href", "https://psv4.userapi.com/c856236/u223208300/docs/d17/940fe658c332/placeholder.svg?extra=U7pyHY43wpEQrZWBWRHAu8a-K5DkB8Bf10z1PqAyBnZIZ5v2CvnGrpbUkc66irDwz68f__EkIIyXsJuIbzJHKC_itwufEAtceJkMGstgBc_s1GzRWspdydl-eqWjcfTRd4CFdqLNcTUTJnmKHz_rv6922g&dl=1")
+                        .attr("xlink:href", "https://psv4.userapi.com/c856220/u223208300/docs/d13/0c10d9df03ee/placeholder_1.svg?extra=G_8SkZskxMPuibJDBp3vpxIeEcWpmGz2wQ3Wqx41hQAJc9YNK5DI8HH_bTPwPpKVZFGXRLv-Cn12G--hGZFkZDEX8WjHandlF8055L0Y5_SFE1LP7JI5BqKZfbzuG-aulk41LqMwCVzV1gdsvx9q1Jr3AQ&dl=1")
                         .attr("class", "here-circle")
+                        .attr("id", "cent")
+                        .attr("width", "120px")
+                        .attr("stroke", stroke)
+                        .attr("stroke-width", strokeWidth)
+                        .attr("x", function (d) {
+                            return d[0];
+                        })
+                        .attr("y", function (d) {
+                            return d[1];
+                        });
+                    g.selectAll(".hence-circle").data([
+                            [x, y]
+                        ])
+                        .enter()
+                        .append("svg:image")
+                        .attr("xlink:href", "https://psv4.userapi.com/c856236/u223208300/docs/d17/940fe658c332/placeholder.svg?extra=U7pyHY43wpEQrZWBWRHAu8a-K5DkB8Bf10z1PqAyBnZIZ5v2CvnGrpbUkc66irDwz68f__EkIIyXsJuIbzJHKC_itwufEAtceJkMGstgBc_s1GzRWspdydl-eqWjcfTRd4CFdqLNcTUTJnmKHz_rv6922g&dl=1")
+                        .attr("class", "hence-circle")
                         .attr("id", "cent")
                         .attr("width", "120px")
                         .attr("stroke", stroke)
@@ -138,6 +154,7 @@ window.onload = function () {
         }
     });
     Request.send(floor);
+
 
     function changexlinkhref(floor) {
         var Request = new XMLHttpRequest();
@@ -172,51 +189,48 @@ window.onload = function () {
 
     svg.on("click", function () {
         if (mapMode === 1) { // СЮДА ФИГАЧИМ ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ "Я ЗДЕСЬ!"
-            
+
             var coords = d3.mouse(svg.node());
             var x = Math.round(coords[0]);
             var y = Math.round(coords[1]);
             g.selectAll(".here-circle")
                 .attr('x', Math.round((x - translateVar[0]) / scaleVar) - 53)
                 .attr('y', Math.round((y - translateVar[1]) / scaleVar) - 90);
-                window.history.pushState('','',`?f=${floor}&x=${Math.round(x)}&y=${Math.round(y)}`);
+            window.history.pushState('', '', `?f=${floor}&x=${Math.round(x)}&y=${Math.round(y)}`);
 
 
         } else if (mapMode === 2) {
-            var events = [];
-            g.on('click', function () {
-                events.push(d3.event);
-                if (events.length > 2) events.shift();
-                var circles = svg.selectAll('circle')
-                    .data(events, function (e) {
-                        return e.timeStamp
-                    })
-                    .attr('fill', 'gray');
-                circles
-                    .enter()
-                    .append('circle')
-                    .attr('cx', function (d) {
-                        myCoordinate[0] = d3.mouse(svg.node())[0]
-                        return myCoordinate[0]
-                    })
-                    .attr('cy', function (d) {
-                        myCoordinate[1] = d3.mouse(svg.node())[1]
-                        return myCoordinate[1]
-                    })
-                    .attr('fill', 'red')
-                    .attr('r', 10);
-                circles
-                    .exit()
-                    .remove();
+            var coords = d3.mouse(svg.node());
+            var x = Math.round(coords[0]);
+            var y = Math.round(coords[1]);
+            g.selectAll(".hence-circle")
+                .attr('x', Math.round((x - translateVar[0]) / scaleVar) - 53)
+                .attr('y', Math.round((y - translateVar[1]) / scaleVar) - 90);
 
-            });
-
-
+            //lineData = data;
+            var lineData = [
+                [569, 1413],
+                [875, 800],
+                [864, 1352],
+            ];
+            d3.select('.myline').remove()
+            let line = d3.line()
+                .x(function (d) {
+                    return Math.round((d[1] - translateVar[0]))
+                })
+                .y(function (d) {
+                    return Math.round((d[0] - translateVar[1]))
+                })
+                
+            g.append('path')
+                .attr('class', 'line')
+                .attr('d', line(lineData))
+                .attr('stroke-width', 3)
+                .attr('stroke', 'red')
+                .attr('fill', 'none')
+                .attr('class', 'myline');
 
             //А СЮДА ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ ПОСТРОЕНИЯ МАРШРУТА
-
-
-
         } else if (mapMode === 3) {
 
             //НУ А ЗДЕСЬ БУДЕТ КРАСОВАТЬСЯ ОБРАБОТКА КЛИКА МЕТКИ
