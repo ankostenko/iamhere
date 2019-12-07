@@ -24,7 +24,7 @@ class SearcherCoordinate:
                     k = ImageCompression.convert_compress_to_real_coordinate((row, col))
                     return ImageCompression.convert_compress_to_real_coordinate((row, col))
                 else:
-                    new_children = {()}
+                    new_children = self.__children
                     if (row + 1, col) not in self.__checked:
                         new_children.add((row + 1, col))
                     if (row - 1, col) not in self.__checked:
