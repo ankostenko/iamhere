@@ -197,4 +197,5 @@ text {
     top: 0;
     right: 10px;
     align-items: flex-end;
+    width: 1rem;
 }
