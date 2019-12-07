@@ -40,7 +40,7 @@ def delete_data():
         session.query(Building).filter_by(id=i).delete()
     session.commit()
 
-
-create_building("test", "уг 36")
-for i in range(1, 8):
-    create_stage(1, str(i), str(i))
+def run_test():
+    create_building("test", "уг 36")
+    for i in range(1, 8):
+        create_stage(1, str(i), str(i))
