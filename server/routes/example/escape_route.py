@@ -58,6 +58,7 @@ if __name__ == '__main__':
     searcher_way.save_file_way(fined_way, img)
     print('find_way_coordinate:', searcher_way.find_way_coordinate(fined_way))
 
+
     print('--- Итоговый класс для вычисление пути. ---')
     finder = WayFinder('floor_2.png')
     print('find_way:', finder.find_way(819, 757, 1447, 1501))
