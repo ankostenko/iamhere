@@ -9,8 +9,7 @@ window.onload = function () {
         .attr("width", "100%")
         .attr("height", "100%")
         .attr('id', 'map')
-        .attr("preserveAspectRatio", "xMidYMid meet")
-        .attr("xmlns", "http://www.w3.org/2000/svg");
+        .attr("preserveAspectRatio", "xMidYMid meet");
     let mapMode = 1;
     /*
      * 1 - Положение на карте
@@ -39,16 +38,6 @@ window.onload = function () {
     [].forEach.call(userMenuItems, function (elem) {
         elem.addEventListener('click', function (e) {
             if (e.srcElement.dataset.mapMode !== mapMode) {
-                if (e.srcElement.parentElement.parentElement.parentElement.parentElement.dataset.mapMode === '4') {
-                    document.getElementsByClassName('select-circle-menu')[0].classList.remove('select-circle-menu');
-                    document.getElementsByClassName('circle-menu-lbl')[0].classList.add('select-circle-menu');
-                    mapMode = Number(e.srcElement.dataset.mapMode);
-                    let nv = document.getElementsByClassName('navbar-nav')[0];
-                
-                    
-                    return;
-
-                }
                 document.getElementsByClassName('select-circle-menu')[0].classList.remove('select-circle-menu');
                 e.srcElement.parentElement.parentElement.classList.add('select-circle-menu');
                 mapMode = Number(e.srcElement.dataset.mapMode);
@@ -86,22 +75,8 @@ window.onload = function () {
     Request.open('GET', '/api/v1/stage/' + floor, true);
     Request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     Request.addEventListener("readystatechange", () => {
-
-
-    var Request2 = new XMLHttpRequest();
-    Request2.open('GET', '/api/v1/tag', true);
-    Request2.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    Request2.addEventListener("readystatechange", () => {
         if (Request.readyState === 4 && Request.status === 200) {
-            let obj = JSON.parse(Request.response)
-
-            let obj2 = JSON.parse(Request2.response)
-            let tags = [], stagesId = []
-            for (var i = 0; i < obj2.counters.length; i++) {
-                tags[i] = obj2[i];
-                stagesId[i] = obj2.file_type[i]
-            }
-           
+            let obj = JSON.parse(Request.response);
             imageId = obj['image_id'];
             var imageRequest = new XMLHttpRequest();
             imageRequest.open('GET', '/api/v1/image/' + imageId, true);
@@ -120,24 +95,6 @@ window.onload = function () {
                         .attr("xlink:href", '../../files/' + img)
                         .attr("data-image-id", +imageId)
                         .attr('id', 'map-image');
-
-                    map.data(stagesId)
-                    .enter()
-                    .append("svg:image")
-                    .attr("xlink:href", () =>{
-                        
-                    })
-                    .attr("class", "tags")
-                    .attr("id", "cent")
-                    .attr("width", "80px")
-                    .attr("stroke", stroke)
-                    .attr("stroke-width", strokeWidth)
-                    .attr("x", function (d) {
-                        return 
-                    })
-                    .attr("y", function (d) {
-                        return d[1];
-                    });
 
                     svg.call(d3.zoom().on("zoom", () => {
                         let t = d3.event.transform;
@@ -177,13 +134,8 @@ window.onload = function () {
 
                     d3.select(window).on('resize', resize);
                     g.selectAll(".here-circle").data([
-<<<<<<< HEAD
-                        [x, y]
-                    ])
-=======
                             [x1, y1]
                         ])
->>>>>>> c1a3ad93ff056b7a86fddc52f45a9c0552dd25ae
                         .enter()
                         .append("svg:image")
                         .attr("xlink:href", "https://psv4.userapi.com/c856220/u223208300/docs/d13/0c10d9df03ee/placeholder_1.svg?extra=G_8SkZskxMPuibJDBp3vpxIeEcWpmGz2wQ3Wqx41hQAJc9YNK5DI8HH_bTPwPpKVZFGXRLv-Cn12G--hGZFkZDEX8WjHandlF8055L0Y5_SFE1LP7JI5BqKZfbzuG-aulk41LqMwCVzV1gdsvx9q1Jr3AQ&dl=1")
@@ -256,9 +208,6 @@ window.onload = function () {
 
     svg.on("click", function () {
         if (mapMode === 1) { // СЮДА ФИГАЧИМ ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ "Я ЗДЕСЬ!"
-<<<<<<< HEAD
-
-=======
             d3.select('.myline').remove()
             d3.select('.hence-circle').remove()
             var coords = d3.mouse(svg.node());
@@ -273,7 +222,6 @@ window.onload = function () {
 
 
         } else if (mapMode === 2) {
->>>>>>> c1a3ad93ff056b7a86fddc52f45a9c0552dd25ae
             var coords = d3.mouse(svg.node());
             var x = Math.round(coords[0]);
             var y = Math.round(coords[1]);
@@ -302,10 +250,6 @@ window.onload = function () {
                 .attr("stroke-width", strokeWidth)
                 .attr('x', Math.round((x - translateVar[0]) / scaleVar) - 53)
                 .attr('y', Math.round((y - translateVar[1]) / scaleVar) - 90);
-<<<<<<< HEAD
-            window.history.pushState('', '', `?f=${floor}&x=${Math.round(x)}&y=${Math.round(y)}`);
-=======
->>>>>>> c1a3ad93ff056b7a86fddc52f45a9c0552dd25ae
 
 
             var routeRequest = new XMLHttpRequest();
@@ -329,12 +273,6 @@ window.onload = function () {
                     svg.append('path')
                         .attr('class', 'line')
                         .attr('d', line(lineData))
-<<<<<<< HEAD
-                        .attr('stroke-width', 10)
-                        .attr('stroke', 'red')
-                        .attr('fill', 'none')
-                        .attr('class', 'myline')
-=======
                         .attr('stroke-width', 10 * scaleVar)
                         .attr('stroke', 'red')
                         .attr('fill', 'none')
@@ -342,7 +280,6 @@ window.onload = function () {
 
 
                     debugger;
->>>>>>> 88dac2b298612642c3b9e20b0fd54a4632ef956e
                 }
             });
             routeRequest.send(jsonObj);
@@ -378,14 +315,6 @@ window.onload = function () {
     placeLink.addEventListener('click', function (e) {
         // ОБРАБОТКА КЛИКА ПО ИНПУТУ С ССЫЛКОЙ
     })
-    let lbls = document.getElementsByClassName('lbl');
-    for (var i = 0, len = lbls.length; i < len; i++) lbls[i].onclick = changeLbl;
-    function changeLbl(e) {
-        let id = e.srcElement.id;
-        let nv = document.getElementsByClassName('navbar-nav')[0];
-        
-    }
-
     var elems = document.querySelectorAll(".circle");
     for (var i = 0, len = elems.length; i < len; i++) elems[i].onclick = changeFloor;
     d3.select(self.frameElement).style("height", height + "px");
