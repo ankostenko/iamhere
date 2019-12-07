@@ -192,17 +192,20 @@ class TagsAPI(Resource):
 
 @api.route('/way/<int:id>')
 class WayFinderApi(Resource):
-    building = api.model('Building', {
-        'name': fields.String,
-        'description': fields.String,
+    way = api.model('way', {
+        'start_row': fields.Integer,
+        'start_col': fields.Integer,
+        'end_row': fields.Integer,
+        'end_col': fields.Integer,
     })
-
-    def get(self, id):
-        filename = session.query(File).filter_by(id=id).first().name
+    @api.expect(way)
+    def post(self, id):
+        filename = session.query(File).filter_by(id=id).first().na
         result = []
         finder = WayFinder(os.path.join('files', filename))
         #finder = WayFinder('C:\\Users\\ДНС\\PycharmProjects\\iamhere-dev\\example\\floor_2.png')
-        return finder.find_way(819, 757, 1447, 1501)
+
+        return finder.find_way(**request.json)
 
 
 @app.route('/admin/<int:buildingId>')
@@ -280,6 +283,5 @@ def files(filename):
 
 
 if __name__ == '__main__':
-	printf(ARGV[1])
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, port=port, host='0.0.0.0')
