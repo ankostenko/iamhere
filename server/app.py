@@ -13,6 +13,7 @@ import os
 import sys
 import server
 from datetime import datetime
+from server.routes.way_finder import WayFinder
 
 app = Flask(__name__,
             static_url_path='',
@@ -189,25 +190,20 @@ class TagsAPI(Resource):
         session.commit()
         return tag.id
 
-# @api.route('/way')
-# class WayFinderApi(Resource):
-#     # building = api.model('Building', {
-#     #     'name': fields.String,
-#     #     'description': fields.String,
-#     # })
-#
-#     def get(self):
-#         result = []
-#         for building in session.query(Building).all():
-#             result.append(building.as_dict())
-#         return make_response(str(result))
-#
-#     @api.expect(building)
-#     def post(self):
-#         building = Building(**request.json)
-#         session.add(building)
-#         session.commit()
-#         return building.id
+@api.route('/way/<int:id>')
+class WayFinderApi(Resource):
+    building = api.model('Building', {
+        'name': fields.String,
+        'description': fields.String,
+    })
+
+    def get(self, id):
+        filename = session.query(File).filter_by(id=id).first().name
+        result = []
+        finder = WayFinder(os.path.join('files', filename))
+        #finder = WayFinder('C:\\Users\\ДНС\\PycharmProjects\\iamhere-dev\\example\\floor_2.png')
+        return finder.find_way(819, 757, 1447, 1501)
+
 
 @app.route('/admin/<int:buildingId>')
 def admin(buildingId):
