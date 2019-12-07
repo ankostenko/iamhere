@@ -7,6 +7,8 @@ from server.routes.image_compression import ImageCompression
 from server.routes.helper_debug.calculation_time import calculation_time
 from server.routes.door_search import DoorSearch
 from server.routes.image_compression import DominateColor
+from server.routes.searcher_coordinate import SearcherCoordinate
+
 
 class WayFinder:
     """
@@ -80,5 +82,8 @@ class WayFinder:
         compress_img = self.get_complexity_way()
 
         searcher_way = SearcherWay(compress_img)
-        fined_way = searcher_way.find_way((start_row, start_col), (end_row, end_col))
+        fined_way = searcher_way.find_way(
+            SearcherCoordinate((start_row, start_col), compress_img).get_coordinate(),
+            SearcherCoordinate((end_row, end_col), compress_img).get_coordinate()
+        )
         return searcher_way.find_way_coordinate(fined_way)

@@ -2,12 +2,12 @@
 Консольное приложение для распознование пути
 """
 import matplotlib.image as mpimg
-#from PIL import Image
+# from PIL import Image
 import numpy
 import matplotlib.pyplot as plt
+import cv2
 
 from datetime import datetime
-import cv2
 
 from server.routes.pixel import Pixel
 from server.routes.identify_obstacles import IdentifyObstacles
@@ -16,7 +16,9 @@ from server.routes.searcher_way import SearcherWay
 from server.routes.image_compression import DominateColor
 from server.routes.image_compression import ImageCompression
 from server.routes.way_finder import WayFinder
+from server.routes.searcher_coordinate import SearcherCoordinate
 from server.routes.door_search import DoorSearch
+
 
 if __name__ == '__main__':
     # img = Image.open('floor_2.png').resize((100, 100))
@@ -57,14 +59,19 @@ if __name__ == '__main__':
     print('Нахождение пути.')
     searcher_way = SearcherWay(compress_img)
     # fined_way = searcher_way.find_way((10, 0), (10, 10))
-    # fined_way = searcher_way.find_way((310, 310), (1525, 1525))
+    fined_way = searcher_way.find_way(
+        SearcherCoordinate((560, 540), compress_img).get_coordinate(),
+        SearcherCoordinate((560, 630), compress_img).get_coordinate()
+    )
     # fined_way = searcher_way.find_way((757, 819), (1501, 1447))
-    fined_way = searcher_way.find_way((819, 757), (1447, 1501))
+    # fined_way = searcher_way.find_way((819, 757), (1447, 1501))
+    # fined_way = searcher_way.find_way((578, 430), (824, 1041))
     # searcher_way.print_way(fined_way)
     searcher_way.save_file_way(fined_way, img)
     print('find_way_coordinate:', searcher_way.find_way_coordinate(fined_way))
 
-    # print('--- Итоговый класс для вычисление пути. ---')
-    # finder = WayFinder('floor_2.png')
-    # print('find_way:', finder.find_way(819, 757, 1447, 1501))
-    # # print('find_way:', finder.find_way(757, 819, 1501, 1447))
+    print('--- Итоговый класс для вычисление пути. ---')
+    finder = WayFinder('floor_2.png')
+    print('find_way:', finder.find_way(560, 540, 560, 630))
+    # print('find_way:', finder.find_way(coor_row, coor_col, 824, 1041))
+    # print('find_way:', finder.find_way(coordinate, 1501, 1447))

@@ -107,7 +107,7 @@ class Upload(Resource):
         uploaded_file = request.files['file']
         filename = str(uuid.uuid4()) + '.' + uploaded_file.filename.split('.')[-1]
         print(uploaded_file.filename)
-        uploaded_file.save(os.path.join('server/files', filename))
+        uploaded_file.save(os.path.join('files', filename))
         file = File(filename)
         session.add(file)
         session.commit()
