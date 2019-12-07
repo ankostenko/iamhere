@@ -7,6 +7,7 @@ import numpy
 import matplotlib.pyplot as plt
 
 from datetime import datetime
+import cv2
 
 from server.routes.pixel import Pixel
 from server.routes.identify_obstacles import IdentifyObstacles
@@ -15,6 +16,7 @@ from server.routes.searcher_way import SearcherWay
 from server.routes.image_compression import DominateColor
 from server.routes.image_compression import ImageCompression
 from server.routes.way_finder import WayFinder
+from server.routes.door_search import DoorSearch
 
 if __name__ == '__main__':
     # img = Image.open('floor_2.png').resize((100, 100))
@@ -40,6 +42,10 @@ if __name__ == '__main__':
     # identify_obstacles.print_surface_type()
     identify_obstacles.save_file_surface_type(img)
 
+    imgDoor = cv2.imread(file_name)
+    door = DoorSearch(imgDoor)
+    door.Search(compress_img)
+
     print('Нахождение сложности поверхности чем дальше от стены тем проще.')
     complexity_way = ComplexityWay(compress_img)
     complexity_way.find_complexity_way()
@@ -58,8 +64,7 @@ if __name__ == '__main__':
     searcher_way.save_file_way(fined_way, img)
     print('find_way_coordinate:', searcher_way.find_way_coordinate(fined_way))
 
-
-    print('--- Итоговый класс для вычисление пути. ---')
-    finder = WayFinder('floor_2.png')
-    print('find_way:', finder.find_way(819, 757, 1447, 1501))
-    # print('find_way:', finder.find_way(757, 819, 1501, 1447))
+    # print('--- Итоговый класс для вычисление пути. ---')
+    # finder = WayFinder('floor_2.png')
+    # print('find_way:', finder.find_way(819, 757, 1447, 1501))
+    # # print('find_way:', finder.find_way(757, 819, 1501, 1447))
