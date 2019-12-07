@@ -295,7 +295,7 @@ def files(filename):
     return send_from_directory('files', filename)
 
 
-@app.before_request
+#@app.before_request
 def before_request():
     print("request called")
     print(request.remote_addr, '- -', datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
