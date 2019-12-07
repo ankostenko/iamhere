@@ -285,8 +285,8 @@ def files(filename):
 
 
 if __name__ == '__main__':
-    if (sys.argv[1] == "fill"):
-    	run_model()
-    	run_test()
+    if (len(sys.argv) > 1 and sys.argv[1] == "fill"):
+        run_model()
+        run_test()
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, port=port, host='0.0.0.0')
