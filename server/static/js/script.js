@@ -107,8 +107,8 @@ window.onload = function () {
                                         .attr("class", "lbl-image")
                                         .attr("width", "50px")
                                         .attr("height", "50px")
-                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
-                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
                                         .attr('title', floorLblsObj[i].name);
                                 }
                                 if (floorLblsObj[i].file_type === 2) {
@@ -117,8 +117,8 @@ window.onload = function () {
                                         .attr("class", "lbl-image")
                                         .attr("width", "50px")
                                         .attr("height", "50px")
-                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
-                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
                                         .attr('title', floorLblsObj[i].name);
                                 }
 
@@ -128,8 +128,29 @@ window.onload = function () {
                                         .attr("class", "lbl-image")
                                         .attr("width", "50px")
                                         .attr("height", "50px")
-                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
-                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
+                                        .attr('title', floorLblsObj[i].name);
+                                }
+
+                                if (floorLblsObj[i].file_type === 4) {
+                                    g.append("svg:image")
+                                        .attr("xlink:href", "../../static/images/crowd.svg")
+                                        .attr("class", "lbl-image")
+                                        .attr("width", "50px")
+                                        .attr("height", "50px")
+                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
+                                        .attr('title', floorLblsObj[i].name);
+                                }
+                                if (floorLblsObj[i].file_type === 5) {
+                                    g.append("svg:image")
+                                        .attr("xlink:href", "../../static/images/shit.svg")
+                                        .attr("class", "lbl-image")
+                                        .attr("width", "50px")
+                                        .attr("height", "50px")
+                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
                                         .attr('title', floorLblsObj[i].name);
                                 }
                                 $('.lbl-image').tooltip();
@@ -267,8 +288,8 @@ window.onload = function () {
                                             .attr("class", "lbl-image")
                                             .attr("width", "50px")
                                             .attr("height", "50px")
-                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
-                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
                                             .attr('title', floorLblsObj[i].name);
                                     }
                                     if (floorLblsObj[i].file_type === 2) {
@@ -277,8 +298,8 @@ window.onload = function () {
                                             .attr("class", "lbl-image")
                                             .attr("width", "50px")
                                             .attr("height", "50px")
-                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
-                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
                                             .attr('title', floorLblsObj[i].name);
                                     }
 
@@ -288,8 +309,28 @@ window.onload = function () {
                                             .attr("class", "lbl-image")
                                             .attr("width", "50px")
                                             .attr("height", "50px")
-                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
-                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
+                                            .attr('title', floorLblsObj[i].name);
+                                    }
+                                    if (floorLblsObj[i].file_type === 4) {
+                                        g.append("svg:image")
+                                            .attr("xlink:href", "../../static/images/crowd.svg")
+                                            .attr("class", "lbl-image")
+                                            .attr("width", "50px")
+                                            .attr("height", "50px")
+                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
+                                            .attr('title', floorLblsObj[i].name);
+                                    }
+                                    if (floorLblsObj[i].file_type === 5) {
+                                        g.append("svg:image")
+                                            .attr("xlink:href", "../../static/images/shit.svg")
+                                            .attr("class", "lbl-image")
+                                            .attr("width", "50px")
+                                            .attr("height", "50px")
+                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar)-25)
+                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar)-25)
                                             .attr('title', floorLblsObj[i].name);
                                     }
                                     $('.lbl-image').tooltip();
@@ -449,8 +490,8 @@ window.onload = function () {
                 .attr("class", "lbl-image")
                 .attr("width", "50px")
                 .attr("height", "50px")
-                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar))
-                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar))
+                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar)-25)
+                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar)-25)
                 .attr('title', inputLbl.value);
             let obj = {
                 "name": inputLbl.value,
@@ -477,8 +518,8 @@ window.onload = function () {
                 .attr("class", "lbl-image")
                 .attr("width", "50px")
                 .attr("height", "50px")
-                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar))
-                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar))
+                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar)-25)
+                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar)-25)
                 .attr('title', inputLbl.value);
             let obj = {
                 "name": inputLbl.value,
@@ -505,14 +546,72 @@ window.onload = function () {
                 .attr("class", "lbl-image")
                 .attr("width", "50px")
                 .attr("height", "50px")
-                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar))
-                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar))
+                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar)-25)
+                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar)-25)
                 .attr('title', inputLbl.value);
             let obj = {
                 "name": inputLbl.value,
                 "x": Math.round((lblX - translateVar[0]) / scaleVar),
                 "y": Math.round((lblY - translateVar[1]) / scaleVar),
                 "file_type": 3,
+                "stage_id": floor,
+                "created": "2019-12-08T07:10:46.410Z",
+                "length_in_days": 1
+            }
+            let jsonObj = JSON.stringify(obj);
+            lblRequest.open('POST', '/api/v1/tags/', true);
+            lblRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            lblRequest.addEventListener('readystatechange', () => {
+                if (lblRequest.readyState === 4 && lblRequest.status === 200) {
+
+                }
+            });
+            lblRequest.send(jsonObj);
+        }
+        else if (selectLbl === 'Crowd') {
+            $('#lbl-modal').modal();
+            g.append("svg:image")
+                .attr("xlink:href", "../../static/images/crowd.svg")
+                .attr("class", "lbl-image")
+                .attr("width", "50px")
+                .attr("height", "50px")
+                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar)-25)
+                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar)-25)
+                .attr('title', inputLbl.value);
+            let obj = {
+                "name": inputLbl.value,
+                "x": Math.round((lblX - translateVar[0]) / scaleVar -25),
+                "y": Math.round((lblY - translateVar[1]) / scaleVar -25),
+                "file_type": 4,
+                "stage_id": floor,
+                "created": "2019-12-08T07:10:46.410Z",
+                "length_in_days": 1
+            }
+            let jsonObj = JSON.stringify(obj);
+            lblRequest.open('POST', '/api/v1/tags/', true);
+            lblRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            lblRequest.addEventListener('readystatechange', () => {
+                if (lblRequest.readyState === 4 && lblRequest.status === 200) {
+
+                }
+            });
+            lblRequest.send(jsonObj);
+        }
+        else if (selectLbl === 'Shit') {
+            $('#lbl-modal').modal();
+            g.append("svg:image")
+                .attr("xlink:href", "../../static/images/shit.svg")
+                .attr("class", "lbl-image")
+                .attr("width", "50px")
+                .attr("height", "50px")
+                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar)-25)
+                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar)-25)
+                .attr('title', inputLbl.value);
+            let obj = {
+                "name": inputLbl.value,
+                "x": Math.round((lblX - translateVar[0]) / scaleVar - 25),
+                "y": Math.round((lblY - translateVar[1]) / scaleVar -25),
+                "file_type": 5,
                 "stage_id": floor,
                 "created": "2019-12-08T07:10:46.410Z",
                 "length_in_days": 1

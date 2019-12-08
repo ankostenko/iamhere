@@ -71,7 +71,7 @@
 #canvas {
     background: white;
     width: calc(100% - 140px);
-    height: calc(100% - 45px);
+    height: calc(100% - 90px);
     margin: 0 70px;
 }
 
