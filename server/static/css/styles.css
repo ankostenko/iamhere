@@ -106,7 +106,7 @@ text {
 .select-circle,
 .select-circle-menu {
     box-shadow: 0 0 0 5px #3b3939;
-    
+
 }
 
 .col-sm {
@@ -155,12 +155,12 @@ text {
     overflow-x: hidden;
 }
 
-.nv-none{
+.nv-none {
     display: none !important;
 }
 
-.nv-flex{
-    display: flex ;
+.nv-flex {
+    display: flex;
 }
 
 .user-menu__item_nothover {
@@ -180,7 +180,7 @@ text {
 }
 
 .building-listing {
-    position: absolute ;
+    position: absolute;
     cursor: pointer;
 }
 
@@ -214,9 +214,7 @@ text {
     width: 1rem;
 }
 
-<<<<<<< HEAD
-line{
-    border-radius: 5px;
+.select-lbl {
+    border:3px #00c4ff solid;
+    border-radius: 20px;
 }
-=======
->>>>>>> 88dac2b298612642c3b9e20b0fd54a4632ef956e

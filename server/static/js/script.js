@@ -18,7 +18,7 @@ window.onload = function () {
      */
 
     let userMenuItems = document.getElementsByClassName('circle-menu');
-    let line;
+    let line = null;;
     let lineData;
     let checkSecondLabel = false;
     var url_string = window.location.href;
@@ -41,9 +41,13 @@ window.onload = function () {
                 document.getElementsByClassName('select-circle-menu')[0].classList.remove('select-circle-menu');
                 e.srcElement.parentElement.parentElement.classList.add('select-circle-menu');
                 mapMode = Number(e.srcElement.dataset.mapMode);
-                if (mapMode === 2) checkSecondLabel = true; else checkSecondLabel=false;
-                d3.select('.myline').remove()
-                d3.select('.hence-circle').remove()
+                if (mapMode === 2) checkSecondLabel = true;
+                else checkSecondLabel = false;
+                if (mapMode !== 3) {
+                    d3.select('.myline').remove()
+                    d3.select('.hence-circle').remove()
+                }
+
             }
         })
     });
@@ -98,9 +102,7 @@ window.onload = function () {
 
                     svg.call(d3.zoom().on("zoom", () => {
                         let t = d3.event.transform;
-                        if(!checkSecondLabel){
-                            d3.select('.myline').remove();
-                        }
+
                         svg.selectAll('.myline').remove();
                         if (t.k >= 0.5) {
                             g.attr("transform", t);
@@ -115,13 +117,17 @@ window.onload = function () {
                             translateVar[0] = t.x;
                             translateVar[1] = t.y;
                         }
-                        svg.append('path')
+                        if (line)
+                            svg.append('path')
                             .attr('class', 'line')
                             .attr('d', line(lineData))
                             .attr('stroke-width', 10 * scaleVar)
                             .attr('stroke', 'red')
                             .attr('fill', 'none')
                             .attr('class', 'myline');
+                        if (!checkSecondLabel) {
+                            d3.select('.myline').remove();
+                        }
 
 
                     }));
@@ -177,6 +183,11 @@ window.onload = function () {
 
     function changexlinkhref(floor) {
         var Request = new XMLHttpRequest();
+        d3.select('.myline').remove();
+        d3.select('.hence-circle').remove();
+        g.selectAll(".here-circle")
+            .attr('x', -10000)
+            .attr('y', -10000);
         Request.open('GET', '/api/v1/stage/' + floor, true);
         Request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
         Request.addEventListener("readystatechange", () => {
@@ -276,23 +287,26 @@ window.onload = function () {
                         .attr('stroke-width', 10 * scaleVar)
                         .attr('stroke', 'red')
                         .attr('fill', 'none')
-                        .attr('class', 'myline')
-
-
-                    debugger;
+                        .attr('class', 'myline');
                 }
             });
             routeRequest.send(jsonObj);
-            //lineData = data;
 
+        } else if (mapMode === 4) {
+            var coords = d3.mouse(svg.node());
+            lblX = Math.round(coords[0]);
+            lblY = Math.round(coords[1]);
+            $('#lbl-modal').modal();
+            
 
-            //А СЮДА ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ ПОСТРОЕНИЯ МАРШРУТА
-        } else if (mapMode === 3) {
+           
 
-            //НУ А ЗДЕСЬ БУДЕТ КРАСОВАТЬСЯ ОБРАБОТКА КЛИКА МЕТКИ
         }
     });
 
+    
+    var lblX=null;
+    var lblY=null;
     let saveButton = document.getElementById('save-map');
     saveButton.addEventListener("click", function () {
         saveSvgAsPng(document.getElementById("map"), "map.png");
@@ -304,6 +318,7 @@ window.onload = function () {
         if (selectCircle.length) {
             selectCircle[0].classList.remove('select-circle');
         }
+        checkSecondLabel = false;
         d.srcElement.classList.add('select-circle');
         scaleVar = 1;
         translateVar = [0, 0];
@@ -314,8 +329,66 @@ window.onload = function () {
 
     placeLink.addEventListener('click', function (e) {
         // ОБРАБОТКА КЛИКА ПО ИНПУТУ С ССЫЛКОЙ
-    })
+    });
+    let lbls = document.getElementsByClassName('lbl');
+
     var elems = document.querySelectorAll(".circle");
+    var selectLbl = null;
+    for (var i = 0, len = lbls.length; i < len; i++) lbls[i].onclick = changeLbl;
+
+    function changeLbl(e) {
+        if (selectLbl !== e.srcElement.id) {
+            if (document.getElementsByClassName('select-lbl').length)
+                document.getElementsByClassName('select-lbl')[0].classList.remove('select-lbl');
+            e.srcElement.classList.add('select-lbl');
+            selectLbl = e.srcElement.id;
+        }
+
+
+    }
+
+    let saveButtonLbl = document.getElementById('save-lbl');
+    let cancelButtonLbl = document.getElementById('cancel-lbl');
+    let inputLbl = document.getElementById('lbl-text');
+    saveButtonLbl.addEventListener('click', function () {
+        if (selectLbl === 'Good') {   
+            g.append("svg:image")
+                .attr("xlink:href", "../../static/images/Good.svg")
+                .attr("class", "lbl-image")
+                .attr("width", "50px")
+                .attr("height", "50px")
+                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar))
+                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar))
+                .attr('title', inputLbl.value);
+        } else if (selectLbl === 'Bad') {
+            $('#lbl-modal').modal();
+            g.append("svg:image")
+                .attr("xlink:href", "../../static/images/Bad.svg")
+                .attr("class", "lbl-image")
+                .attr("width", "50px")
+                .attr("height", "50px")
+                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar))
+                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar))
+                .attr('title', inputLbl.value);
+        } else if (selectLbl === 'Food') {
+            $('#lbl-modal').modal();
+            g.append("svg:image")
+                .attr("xlink:href", "../../static/images/Food.svg")
+                .attr("class", "lbl-image")
+                .attr("width", "50px")
+                .attr("height", "50px")
+                .attr('x', Math.round((lblX - translateVar[0]) / scaleVar))
+                .attr('y', Math.round((lblY - translateVar[1]) / scaleVar))
+                .attr('title', inputLbl.value);
+        }
+        $('.lbl-image').tooltip();
+        inputLbl.value = '';
+        $('#lbl-modal').modal('hide');
+    })
+    cancelButtonLbl.addEventListener('click', function () {
+        inputLbl.value = '';
+    })
     for (var i = 0, len = elems.length; i < len; i++) elems[i].onclick = changeFloor;
     d3.select(self.frameElement).style("height", height + "px");
+    
 }

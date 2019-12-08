@@ -59,15 +59,16 @@
                 </div>
 
 
-                <nav >
+                <nav>
                     <div class="circle-menu circle-menu-lbl" data-map-mode="4">
-                    <div  class="user-menu__item" data-map-mode="4">
-                        <button  class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-map-mode="4"
-                            data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
-                            aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
-                                    class="fas fa-bars fa-1x"><img  src="../../static/images/Settings.svg" height="30px"
-                                        width="30px"></i></a></span></button>
-                    </div>
+                        <div class="user-menu__item" data-map-mode="4">
+                            <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse"
+                                data-map-mode="4" data-target="#navbarSupportedContent1"
+                                aria-controls="navbarSupportedContent1" aria-expanded="false"
+                                aria-label="Toggle navigation"><span class="dark-blue-text"><i
+                                        class="fas fa-bars fa-1x"><img src="../../static/images/Settings.svg"
+                                            height="30px" width="30px" data-map-mode="4"></i></a></span></button>
+                        </div>
                     </div>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent1">
@@ -101,7 +102,25 @@
         </div>
     </div>
     </div>
-
+    <div class="modal" tabindex="-1" role="dialog" id="lbl-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Введите комментарий</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="lbl-text"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"  id="cancel-lbl" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-lbl">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
