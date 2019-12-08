@@ -45,8 +45,10 @@ class Tag(Base):
         self.length_in_days = length_in_days
 
     def as_dict(self):
-        return {c.name: getattr(self, c.name) if type(getattr(self, c.name)) != bytes else \
+        result = {c.name: getattr(self, c.name) if type(getattr(self, c.name)) != bytes else \
             getattr(self, c.name).decode('utf-8') for c in self.__table__.columns}
+        result['created']=result['created'].strftime("%b %d %Y %H:%M:%S")
+        return result
 
 class Stage(Base):
     __tablename__ = 'stage'

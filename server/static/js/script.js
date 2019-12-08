@@ -93,6 +93,50 @@ window.onload = function () {
                         svg.attr('viewBox', '0 0 ' + imageCheckSize.width + ' ' + imageCheckSize.height);
                     }
                     imageCheckSize.src = '../../files/' + img;
+                    var lblsRequest = new XMLHttpRequest();
+                    lblsRequest.open('GET', '/api/v1/tags/' + floor, true);
+                    lblsRequest.setRequestHeader('Content-type', 'text/html; charset=utf-8');
+                    lblsRequest.addEventListener('readystatechange', () => {
+                        if (lblsRequest.readyState === 4 && lblsRequest.status === 200) {
+                            let floorLblsJson = lblsRequest.response.replace(/'/g, '"');
+                            let floorLblsObj = JSON.parse(floorLblsJson);
+                            for (let i = 0; i < floorLblsObj.length; i++) {
+                                if (floorLblsObj[i].file_type === 1) {
+                                    g.append("svg:image")
+                                        .attr("xlink:href", "../../static/images/Good.svg")
+                                        .attr("class", "lbl-image")
+                                        .attr("width", "50px")
+                                        .attr("height", "50px")
+                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
+                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                        .attr('title', floorLblsObj[i].name);
+                                }
+                                if (floorLblsObj[i].file_type === 2) {
+                                    g.append("svg:image")
+                                        .attr("xlink:href", "../../static/images/Bad.svg")
+                                        .attr("class", "lbl-image")
+                                        .attr("width", "50px")
+                                        .attr("height", "50px")
+                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
+                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                        .attr('title', floorLblsObj[i].name);
+                                }
+
+                                if (floorLblsObj[i].file_type === 3) {
+                                    g.append("svg:image")
+                                        .attr("xlink:href", "../../static/images/Food.svg")
+                                        .attr("class", "lbl-image")
+                                        .attr("width", "50px")
+                                        .attr("height", "50px")
+                                        .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
+                                        .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                        .attr('title', floorLblsObj[i].name);
+                                }
+                                $('.lbl-image').tooltip();
+                            }
+                        }
+                    });
+                    lblsRequest.send(floor);
                     let map = g.append("svg:image")
                         .attr('x', 0)
                         .attr('y', 0)
@@ -173,6 +217,7 @@ window.onload = function () {
                         .attr("y", function (d) {
                             return d[1];
                         });
+
                 }
             });
             imageRequest.send(imageId);
@@ -207,6 +252,51 @@ window.onload = function () {
                             svg.attr('viewBox', '0 0 ' + imageCheckSize.width + ' ' + imageCheckSize.height);
                         }
                         imageCheckSize.src = '../../files/' + img;
+                        d3.selectAll('.lbl-image').remove();
+                        var lblsRequest = new XMLHttpRequest();
+                        lblsRequest.open('GET', '/api/v1/tags/' + floor, true);
+                        lblsRequest.setRequestHeader('Content-type', 'text/html; charset=utf-8');
+                        lblsRequest.addEventListener('readystatechange', () => {
+                            if (lblsRequest.readyState === 4 && lblsRequest.status === 200) {
+                                let floorLblsJson = lblsRequest.response.replace(/'/g, '"');
+                                let floorLblsObj = JSON.parse(floorLblsJson);
+                                for (let i = 0; i < floorLblsObj.length; i++) {
+                                    if (floorLblsObj[i].file_type === 1) {
+                                        g.append("svg:image")
+                                            .attr("xlink:href", "../../static/images/Good.svg")
+                                            .attr("class", "lbl-image")
+                                            .attr("width", "50px")
+                                            .attr("height", "50px")
+                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
+                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                            .attr('title', floorLblsObj[i].name);
+                                    }
+                                    if (floorLblsObj[i].file_type === 2) {
+                                        g.append("svg:image")
+                                            .attr("xlink:href", "../../static/images/Bad.svg")
+                                            .attr("class", "lbl-image")
+                                            .attr("width", "50px")
+                                            .attr("height", "50px")
+                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
+                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                            .attr('title', floorLblsObj[i].name);
+                                    }
+
+                                    if (floorLblsObj[i].file_type === 3) {
+                                        g.append("svg:image")
+                                            .attr("xlink:href", "../../static/images/Food.svg")
+                                            .attr("class", "lbl-image")
+                                            .attr("width", "50px")
+                                            .attr("height", "50px")
+                                            .attr('x', Math.round((floorLblsObj[i].x - translateVar[0]) / scaleVar))
+                                            .attr('y', Math.round((floorLblsObj[i].y - translateVar[1]) / scaleVar))
+                                            .attr('title', floorLblsObj[i].name);
+                                    }
+                                    $('.lbl-image').tooltip();
+                                }
+                            }
+                        });
+                        lblsRequest.send(floor);
                     }
                 });
                 imageRequest.send(floor);
@@ -297,16 +387,16 @@ window.onload = function () {
             lblX = Math.round(coords[0]);
             lblY = Math.round(coords[1]);
             $('#lbl-modal').modal();
-            
 
-           
+
+
 
         }
     });
 
-    
-    var lblX=null;
-    var lblY=null;
+
+    var lblX = null;
+    var lblY = null;
     let saveButton = document.getElementById('save-map');
     saveButton.addEventListener("click", function () {
         saveSvgAsPng(document.getElementById("map"), "map.png");
@@ -325,6 +415,7 @@ window.onload = function () {
         g.attr("transform", "translate(0, 0)scale(1)");
         changexlinkhref(floor);
         window.history.pushState('page2', 'Title', '/building/' + d.currentTarget.dataset.buildingId + '?f=' + floor);
+
     };
 
     placeLink.addEventListener('click', function (e) {
@@ -351,7 +442,8 @@ window.onload = function () {
     let cancelButtonLbl = document.getElementById('cancel-lbl');
     let inputLbl = document.getElementById('lbl-text');
     saveButtonLbl.addEventListener('click', function () {
-        if (selectLbl === 'Good') {   
+        var lblRequest = new XMLHttpRequest();
+        if (selectLbl === 'Good') {
             g.append("svg:image")
                 .attr("xlink:href", "../../static/images/Good.svg")
                 .attr("class", "lbl-image")
@@ -360,6 +452,24 @@ window.onload = function () {
                 .attr('x', Math.round((lblX - translateVar[0]) / scaleVar))
                 .attr('y', Math.round((lblY - translateVar[1]) / scaleVar))
                 .attr('title', inputLbl.value);
+            let obj = {
+                "name": inputLbl.value,
+                "x": Math.round((lblX - translateVar[0]) / scaleVar),
+                "y": Math.round((lblY - translateVar[1]) / scaleVar),
+                "file_type": 1,
+                "stage_id": floor,
+                "created": "2019-12-08T07:10:46.410Z",
+                "length_in_days": 1
+            }
+            let jsonObj = JSON.stringify(obj);
+            lblRequest.open('POST', '/api/v1/tags/', true);
+            lblRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            lblRequest.addEventListener('readystatechange', () => {
+                if (lblRequest.readyState === 4 && lblRequest.status === 200) {
+
+                }
+            });
+            lblRequest.send(jsonObj);
         } else if (selectLbl === 'Bad') {
             $('#lbl-modal').modal();
             g.append("svg:image")
@@ -370,6 +480,24 @@ window.onload = function () {
                 .attr('x', Math.round((lblX - translateVar[0]) / scaleVar))
                 .attr('y', Math.round((lblY - translateVar[1]) / scaleVar))
                 .attr('title', inputLbl.value);
+            let obj = {
+                "name": inputLbl.value,
+                "x": Math.round((lblX - translateVar[0]) / scaleVar),
+                "y": Math.round((lblY - translateVar[1]) / scaleVar),
+                "file_type": 2,
+                "stage_id": floor,
+                "created": "2019-12-08T07:10:46.410Z",
+                "length_in_days": 1
+            }
+            let jsonObj = JSON.stringify(obj);
+            lblRequest.open('POST', '/api/v1/tags/', true);
+            lblRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            lblRequest.addEventListener('readystatechange', () => {
+                if (lblRequest.readyState === 4 && lblRequest.status === 200) {
+
+                }
+            });
+            lblRequest.send(jsonObj);
         } else if (selectLbl === 'Food') {
             $('#lbl-modal').modal();
             g.append("svg:image")
@@ -380,6 +508,24 @@ window.onload = function () {
                 .attr('x', Math.round((lblX - translateVar[0]) / scaleVar))
                 .attr('y', Math.round((lblY - translateVar[1]) / scaleVar))
                 .attr('title', inputLbl.value);
+            let obj = {
+                "name": inputLbl.value,
+                "x": Math.round((lblX - translateVar[0]) / scaleVar),
+                "y": Math.round((lblY - translateVar[1]) / scaleVar),
+                "file_type": 3,
+                "stage_id": floor,
+                "created": "2019-12-08T07:10:46.410Z",
+                "length_in_days": 1
+            }
+            let jsonObj = JSON.stringify(obj);
+            lblRequest.open('POST', '/api/v1/tags/', true);
+            lblRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            lblRequest.addEventListener('readystatechange', () => {
+                if (lblRequest.readyState === 4 && lblRequest.status === 200) {
+
+                }
+            });
+            lblRequest.send(jsonObj);
         }
         $('.lbl-image').tooltip();
         inputLbl.value = '';
@@ -390,5 +536,5 @@ window.onload = function () {
     })
     for (var i = 0, len = elems.length; i < len; i++) elems[i].onclick = changeFloor;
     d3.select(self.frameElement).style("height", height + "px");
-    
+
 }

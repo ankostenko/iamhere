@@ -177,13 +177,13 @@ class TagsAPI(Resource):
 @api.route('/tags/<int:id>')
 class TagsAPI(Resource):
     tag = api.model('Tag', {
-        'name': fields.String,
-        'x': fields.Integer,
-        'y': fields.Integer,
-        'file_type': fields.Integer,
-        'stage_id': fields.Integer,
-        'created': fields.DateTime,
-        'length_in_days': fields.Integer,
+        "name": fields.String,
+        "x": fields.Integer,
+        "y": fields.Integer,
+        "file_type": fields.Integer,
+        "stage_id": fields.Integer,
+        "created": fields.DateTime,
+        "length_in_days": fields.Integer,
     })
 
     def get(self, id):
