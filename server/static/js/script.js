@@ -28,7 +28,7 @@ window.onload = function () {
     var floor = url.searchParams.get("f");
     var x1 = url.searchParams.get("x")
     var y1 = url.searchParams.get("y")
-    placeLink.value = 'x: ' + (x1 === (null || -10000) ? '' : x1) + ' y: ' + (y1 ===(null || -10000) ? '' : y1);
+    placeLink.value = 'x: ' + (x1 === (null || -10000) ? '' : x1) + ' y: ' + (y1 === (null || -10000) ? '' : y1);
     placeLinkNone.value = window.location.href;
     if (floor == null) {
         floor = document.getElementsByClassName('circle')[0].dataset.stageId;
@@ -171,18 +171,27 @@ window.onload = function () {
                         let t = d3.event.transform;
 
                         svg.selectAll('.myline').remove();
-                        if (t.k >= 0.5) {
-                            g.attr("transform", t);
-                            translateVar[0] = t.x;
-                            translateVar[1] = t.y;
-                            scaleVar = t.k;
-                        } else {
+                        console.log(t.k);
+                        if (t.k < 0.5) {
                             t.k = 0.5;
                             t.x = translateVar[0];
                             t.y = translateVar[1];
                             g.attr("transform", t);
                             translateVar[0] = t.x;
                             translateVar[1] = t.y;
+
+                        } else if (t.k >= 10) {
+                            t.k = scaleVar;
+                            t.x = translateVar[0];
+                            t.y = translateVar[1];
+                            g.attr("transform", t);
+                            translateVar[0] = t.x;
+                            translateVar[1] = t.y;
+                        } else {
+                            g.attr("transform", t);
+                            translateVar[0] = t.x;
+                            translateVar[1] = t.y;
+                            scaleVar = t.k;
                         }
                         if (line)
                             svg.append('path')
@@ -211,7 +220,7 @@ window.onload = function () {
                         ])
                         .enter()
                         .append("svg:image")
-                        .attr("xlink:href", "https://psv4.userapi.com/c856220/u223208300/docs/d13/0c10d9df03ee/placeholder_1.svg?extra=G_8SkZskxMPuibJDBp3vpxIeEcWpmGz2wQ3Wqx41hQAJc9YNK5DI8HH_bTPwPpKVZFGXRLv-Cn12G--hGZFkZDEX8WjHandlF8055L0Y5_SFE1LP7JI5BqKZfbzuG-aulk41LqMwCVzV1gdsvx9q1Jr3AQ&dl=1")
+                        .attr("xlink:href", "../../static/images/place-me.svg")
                         .attr("class", "here-circle")
                         .attr("id", "cent")
                         .attr("width", "120px")
@@ -228,7 +237,7 @@ window.onload = function () {
                         ])
                         .enter()
                         .append("svg:image")
-                        .attr("xlink:href", "https://psv4.userapi.com/c856236/u223208300/docs/d17/940fe658c332/placeholder.svg?extra=U7pyHY43wpEQrZWBWRHAu8a-K5DkB8Bf10z1PqAyBnZIZ5v2CvnGrpbUkc66irDwz68f__EkIIyXsJuIbzJHKC_itwufEAtceJkMGstgBc_s1GzRWspdydl-eqWjcfTRd4CFdqLNcTUTJnmKHz_rv6922g&dl=1")
+                        .attr("xlink:href", "../../static/images/placeholder.svg")
                         .attr("class", "hence-circle")
                         .attr("id", "cent")
                         .attr("width", "120px")
@@ -240,7 +249,7 @@ window.onload = function () {
                         .attr("y", function (d) {
                             return d[1];
                         });
-                    placeLink.value = 'x: ' + (x1 ===  (null || -10000) ? '' : x1) + ' y: ' + (y1 === (null || -10000)  ? '' : y1);
+                    placeLink.value = 'x: ' + (x1 === (null || -10000) ? '' : x1) + ' y: ' + (y1 === (null || -10000) ? '' : y1);
                     placeLinkNone.value = window.location.href;
 
                 }
@@ -355,7 +364,7 @@ window.onload = function () {
 
 
 
-    svg.on("click", function () {
+    g.on("click", function () {
         if (mapMode === 1) { // СЮДА ФИГАЧИМ ОБРАБОТКУ КЛИКА С ВКЛЮЧЕННОЙ ФУНКЦИЕЙ "Я ЗДЕСЬ!"
             d3.select('.myline').remove()
             d3.select('.hence-circle').remove()
@@ -392,7 +401,7 @@ window.onload = function () {
                 ])
                 .enter()
                 .append("svg:image")
-                .attr("xlink:href", "https://psv4.userapi.com/c856236/u223208300/docs/d17/940fe658c332/placeholder.svg?extra=U7pyHY43wpEQrZWBWRHAu8a-K5DkB8Bf10z1PqAyBnZIZ5v2CvnGrpbUkc66irDwz68f__EkIIyXsJuIbzJHKC_itwufEAtceJkMGstgBc_s1GzRWspdydl-eqWjcfTRd4CFdqLNcTUTJnmKHz_rv6922g&dl=1")
+                .attr("xlink:href", "../../static/images/placeholder.svg")
                 .attr("class", "hence-circle")
                 .attr("id", "cent")
                 .attr("width", "120px")
@@ -429,6 +438,9 @@ window.onload = function () {
                         .attr('class', 'myline');
                 }
             });
+            routeRequest.addEventListener('progress', ()=>{
+                document.getElementsByClassName('load-black')[0].style.display='block';
+            })
             routeRequest.send(jsonObj);
 
         } else if (mapMode === 4) {
@@ -453,6 +465,7 @@ window.onload = function () {
 
     var changeFloor = function (d) {
         floor = d.currentTarget.dataset.stageId;
+        d3.zoom().transform(svg, d3.zoomIdentity.translate(0, 0).scale(1));
         let selectCircle = document.getElementsByClassName('select-circle');
         if (selectCircle.length) {
             selectCircle[0].classList.remove('select-circle');
