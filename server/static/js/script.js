@@ -438,9 +438,13 @@ window.onload = function () {
                         .attr('class', 'myline');
                 }
             });
-            routeRequest.addEventListener('progress', ()=>{
-                document.getElementsByClassName('load-black')[0].style.display='block';
-            })
+            routeRequest.onloadstart = function() {
+                document.getElementsByClassName('load-back')[0].style.display = 'block';
+            }
+
+            routeRequest.onloadend = function() {
+                document.getElementsByClassName('load-back')[0].style.display = 'none';
+            };
             routeRequest.send(jsonObj);
 
         } else if (mapMode === 4) {
