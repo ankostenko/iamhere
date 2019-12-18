@@ -188,11 +188,12 @@ class TagsAPI(Resource):
 
     def get(self, id):
         result = []
-        for tag in session.query(Tag).filter_by(stage_id=id).all():
-            if (datetime.now() < tag.created + timedelta(days=tag.length_in_days)):
-                result.append(tag.as_dict())
-            else:
-                session.delete(tag)
+        # for tag in session.query(Tag).filter_by(stage_id=id).all():
+        #     if (datetime.now() < tag.created + timedelta(days=tag.length_in_days)):
+        #         result.append(tag.as_dict())
+        #     else:
+        #         session.delete(tag)
+        result.append(tag.as_dict())
                 # tags_for_del = session.query(Tag).filter(
                 #     (datetime.now().timestamp() - Tag.created.timestamp()).day < Tag.length_in_days)
         # tags_for_del = session.query(Tag).filter((datetime.now().timestamp() - Tag.created.timestamp()).day < Tag.length_in_days)
