@@ -188,12 +188,12 @@ class TagsAPI(Resource):
 
     def get(self, id):
         result = []
-        # for tag in session.query(Tag).filter_by(stage_id=id).all():
-        #     if (datetime.now() < tag.created + timedelta(days=tag.length_in_days)):
-        #         result.append(tag.as_dict())
-        #     else:
-        #         session.delete(tag)
-        result.append(tag.as_dict())
+        for tag in session.query(Tag).filter_by(stage_id=id).all():
+            # if (datetime.now() < tag.created + timedelta(days=tag.length_in_days)):
+            #     result.append(tag.as_dict())
+            # else:
+            #     session.delete(tag)
+            result.append(tag.as_dict())
                 # tags_for_del = session.query(Tag).filter(
                 #     (datetime.now().timestamp() - Tag.created.timestamp()).day < Tag.length_in_days)
         # tags_for_del = session.query(Tag).filter((datetime.now().timestamp() - Tag.created.timestamp()).day < Tag.length_in_days)
@@ -344,9 +344,12 @@ def before_request():
     #     row.counter += 1
     # session.commit()
 
-if __name__ == '__main__':
+def runme():
     if (len(sys.argv) > 1 and sys.argv[1] == "fill"):
         run_model()
         run_test()
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, port=port, host='0.0.0.0')
+
+if __name__ == '__main__':
+    runme()
