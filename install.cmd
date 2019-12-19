@@ -1,7 +1,6 @@
-@echo off
 REM We are installing dependencies
 cd libs
-for %x in (dir *.whl) do py -3 -m pip install %x
+for %%x in (dir *.whl) do py -3 -m pip install %%x
 cd ..
-set PYTHONPATH=%d%
+set PYTHONPATH=%cd%
 py -3 server/app.py
